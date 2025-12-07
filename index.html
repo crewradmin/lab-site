@@ -2,27 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Subdomain Control Center · Multiverse Console</title>
+  <title>Orbital Bazaar · Interactive NFT-Style Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root {
-      --bg-top: #020617;
-      --bg-mid: #020617;
-      --bg-bottom: #000000;
+      --bg-1: #020617;
+      --bg-2: #020617;
+      --bg-3: #000000;
       --accent-1: #22c55e;
       --accent-2: #0ea5e9;
       --accent-3: #a855f7;
       --accent-4: #f97316;
       --text-main: #e5e7eb;
       --text-muted: #9ca3af;
-      --shell-bg: rgba(15, 23, 42, 0.9);
-      --shell-border: rgba(148, 163, 184, 0.35);
-      --radius-lg: 24px;
+      --card-bg: rgba(15, 23, 42, 0.96);
+      --card-border: rgba(148, 163, 184, 0.3);
+      --radius-lg: 22px;
       --radius-md: 18px;
-      --radius-sm: 12px;
       --radius-pill: 999px;
-      --shadow-strong: 0 24px 80px rgba(15, 23, 42, 0.95);
+      --shadow-strong: 0 22px 70px rgba(15, 23, 42, 0.95);
     }
 
     * {
@@ -34,238 +33,193 @@
     html, body {
       height: 100%;
       width: 100%;
-      overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
       color: var(--text-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 60%),
+        radial-gradient(circle at 100% 120%, rgba(168, 85, 247, 0.2), transparent 60%),
+        linear-gradient(to bottom, var(--bg-1), var(--bg-2) 50%, var(--bg-3) 100%);
+      overflow-x: hidden;
     }
 
     body {
-      position: relative;
       display: flex;
-      align-items: stretch;
-      justify-content: center;
-      padding: clamp(1.5rem, 3.5vw, 3rem);
-      background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.18), transparent 60%),
-        linear-gradient(to bottom, var(--bg-top), var(--bg-mid) 50%, var(--bg-bottom) 100%);
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    /* background stars canvas */
+    /* floating orbs */
 
-    #starfield {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      opacity: 0.9;
-      pointer-events: none;
-    }
-
-    /* moving nebula blobs */
-
-    .nebula {
+    .orb {
       position: fixed;
       border-radius: 50%;
       filter: blur(60px);
-      opacity: 0.55;
+      opacity: 0.5;
       mix-blend-mode: screen;
       pointer-events: none;
-      z-index: -3;
+      z-index: -1;
     }
 
-    .nebula.n1 {
+    .orb.o1 {
       width: 420px;
       height: 420px;
       top: -80px;
       left: -80px;
       background: radial-gradient(circle at 30% 30%, #22c55e, transparent 60%);
-      animation: drift-1 26s ease-in-out infinite alternate;
+      animation: float-1 28s ease-in-out infinite alternate;
     }
 
-    .nebula.n2 {
+    .orb.o2 {
       width: 520px;
       height: 520px;
       top: -120px;
       right: -70px;
       background: radial-gradient(circle at 60% 20%, #0ea5e9, transparent 60%);
-      animation: drift-2 32s ease-in-out infinite alternate;
+      animation: float-2 32s ease-in-out infinite alternate;
     }
 
-    .nebula.n3 {
-      width: 480px;
-      height: 480px;
+    .orb.o3 {
+      width: 460px;
+      height: 460px;
       bottom: -140px;
       left: 10%;
       background: radial-gradient(circle at 30% 60%, #a855f7, transparent 65%);
-      animation: drift-3 30s ease-in-out infinite alternate;
+      animation: float-3 30s ease-in-out infinite alternate;
     }
 
-    @keyframes drift-1 {
+    @keyframes float-1 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      100% { transform: translate3d(90px, 140px, 0) scale(1.2); }
+      100% { transform: translate3d(90px, 140px, 0) scale(1.15); }
     }
-    @keyframes drift-2 {
+    @keyframes float-2 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
       100% { transform: translate3d(-120px, 160px, 0) scale(1.1); }
     }
-    @keyframes drift-3 {
+    @keyframes float-3 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      100% { transform: translate3d(80px, -100px, 0) scale(1.15); }
+      100% { transform: translate3d(80px, -100px, 0) scale(1.2); }
     }
 
-    /* OS chrome */
+    /* nav */
 
-    .shell {
-      position: relative;
-      width: 100%;
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(24px);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.97), rgba(15, 23, 42, 0.92));
+      border-bottom: 1px solid rgba(30, 64, 175, 0.7);
+    }
+
+    .nav-inner {
       max-width: 1200px;
-      min-height: clamp(520px, 80vh, 780px);
-      border-radius: var(--radius-lg);
-      background:
-        radial-gradient(circle at top center, rgba(148, 163, 184, 0.15), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
-      border: 1px solid var(--shell-border);
-      box-shadow: var(--shadow-strong);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      backdrop-filter: blur(28px);
-    }
-
-    .top-bar {
+      margin: 0 auto;
+      padding: 0.8rem 1.4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.75rem 1.2rem;
-      border-bottom: 1px solid rgba(30, 64, 175, 0.6);
-      background: linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.9));
+      gap: 1rem;
     }
 
-    .top-left {
+    .nav-left {
       display: flex;
       align-items: center;
       gap: 0.9rem;
     }
 
-    .traffic-lights {
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: conic-gradient(from 220deg, #22c55e, #0ea5e9, #a855f7, #f97316, #22c55e);
+      padding: 2px;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.85), 0 0 30px rgba(56, 189, 248, 0.6);
+    }
+
+    .logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: radial-gradient(circle at 40% 0, #1d4ed8, #020617 60%, #000 100%);
       display: flex;
-      gap: 0.35rem;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
     }
 
-    .traffic-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: radial-gradient(circle, #fecaca, #b91c1c);
-      box-shadow: 0 0 10px rgba(248, 113, 113, 0.7);
-    }
-
-    .traffic-dot:nth-child(2) {
-      background: radial-gradient(circle, #fef9c3, #facc15);
-      box-shadow: 0 0 10px rgba(253, 224, 71, 0.8);
-    }
-
-    .traffic-dot:nth-child(3) {
-      background: radial-gradient(circle, #bbf7d0, #16a34a);
-      box-shadow: 0 0 10px rgba(22, 163, 74, 0.8);
-    }
-
-    .title-block {
+    .brand-text {
       display: flex;
       flex-direction: column;
       gap: 0.1rem;
     }
 
-    .title-main {
-      font-size: 0.9rem;
-      letter-spacing: 0.18em;
+    .brand-title {
+      font-size: 0.96rem;
       text-transform: uppercase;
+      letter-spacing: 0.18em;
     }
 
-    .title-sub {
-      font-size: 0.72rem;
+    .brand-subtitle {
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
-    .top-right {
+    .nav-links {
       display: flex;
-      gap: 0.6rem;
+      gap: 0.8rem;
       align-items: center;
-      font-size: 0.75rem;
+      font-size: 0.82rem;
+    }
+
+    .nav-link {
+      cursor: pointer;
       color: var(--text-muted);
+      padding: 0.2rem 0.4rem;
+      border-radius: 999px;
+      transition: color 0.16s ease, background 0.16s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      font-size: 0.78rem;
     }
 
     .pill {
       border-radius: var(--radius-pill);
-      padding: 0.25rem 0.7rem;
-      border: 1px solid rgba(148, 163, 184, 0.65);
-      background: rgba(15, 23, 42, 0.9);
+      padding: 0.28rem 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.92);
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-    }
-
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #4ade80, #16a34a);
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.85);
-    }
-
-    .main-layout {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      min-height: 0;
-    }
-
-    @media (max-width: 880px) {
-      .main-layout {
-        grid-template-columns: 220px minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 760px) {
-      .main-layout {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto auto;
-      }
-    }
-
-    /* sidebar */
-
-    .sidebar {
-      border-right: 1px solid rgba(30, 64, 175, 0.6);
-      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.9));
-      padding: 1.1rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .sidebar-heading {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
       color: var(--text-muted);
     }
 
-    .app-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #22c55e, #15803d);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
     }
 
-    .app-button {
-      position: relative;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(51, 65, 85, 0.9);
-      padding: 0.6rem 0.7rem;
-      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.2), transparent 55%);
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
+    .button {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text-main);
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       cursor: pointer;
       transition:
         border-color 0.16s ease,
@@ -274,431 +228,338 @@
         box-shadow 0.16s ease;
     }
 
-    .app-button:hover {
-      transform: translateY(-2px);
-      border-color: rgba(59, 130, 246, 0.9);
-      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.95);
-    }
-
-    .app-button.active {
-      border-color: rgba(56, 189, 248, 0.9);
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.98), 0 0 25px rgba(56, 189, 248, 0.7);
-      background:
-        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.16), transparent 60%);
-    }
-
-    .app-button-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.4rem;
-    }
-
-    .app-button-title {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .app-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 8px;
-      background: radial-gradient(circle at 30% 30%, #e5e7eb, #60a5fa 50%, #1d4ed8 90%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-    }
-
-    .app-tag {
-      font-size: 0.62rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-    }
-
-    .app-desc {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(30, 64, 175, 0.7);
-      padding-top: 0.7rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .sidebar-footer strong {
-      font-weight: 500;
-      color: #e5e7eb;
-    }
-
-    /* content area */
-
-    .content {
-      padding: 1.1rem 1.25rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-      min-width: 0;
-      min-height: 0;
-    }
-
-    .content-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .content-title {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .content-title-main {
-      font-size: 1.05rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .pill-soft {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      border-radius: var(--radius-pill);
-      padding: 0.12rem 0.55rem;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: var(--text-muted);
-    }
-
-    .content-title-sub {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .content-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .small-button {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.75);
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--text-main);
-      font-size: 0.78rem;
-      padding: 0.35rem 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      cursor: pointer;
-      transition:
-        border-color 0.16s ease,
-        background 0.16s ease,
-        transform 0.15s ease;
-    }
-
-    .small-button:hover {
-      border-color: rgba(56, 189, 248, 0.9);
-      transform: translateY(-1px);
-      background: radial-gradient(circle at 0 0, rgba(37, 99, 235, 0.3), rgba(15, 23, 42, 0.95));
-    }
-
-    .small-button.primary {
-      border-color: rgba(34, 197, 94, 0.9);
-      background: linear-gradient(130deg, #22c55e, #0ea5e9);
-      color: #020617;
-    }
-
-    .small-button.primary:hover {
+    .button:hover {
       border-color: rgba(56, 189, 248, 1);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.98));
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.9);
+    }
+
+    .button.primary {
+      border-color: rgba(34, 197, 94, 1);
+      background: linear-gradient(120deg, #22c55e, #0ea5e9);
+      color: #020617;
+      box-shadow:
+        0 12px 32px rgba(34, 197, 94, 0.6),
+        0 0 25px rgba(56, 189, 248, 0.7);
+    }
+
+    .button.primary:hover {
+      box-shadow:
+        0 18px 40px rgba(21, 128, 61, 0.9),
+        0 0 35px rgba(56, 189, 248, 0.9);
       transform: translateY(-1px) scale(1.01);
     }
 
-    /* apps wrapper */
+    /* layout */
 
-    .apps {
-      position: relative;
+    .page {
       flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .app {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(6px);
-      transition:
-        opacity 0.22s ease,
-        transform 0.22s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .app.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .app-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.6rem 1.4rem 1.8rem;
       display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
-      gap: 0.85rem;
-      min-height: 0;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 1.4rem;
     }
 
-    @media (max-width: 900px) {
-      .app-grid {
+    @media (max-width: 980px) {
+      .page {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
-    .panel {
-      position: relative;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.92));
-      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.95);
-      padding: 0.85rem 0.9rem;
+    /* hero */
+
+    .hero {
+      margin-bottom: 1.4rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.3fr);
+      gap: 1.2rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-left {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      overflow: hidden;
-      min-height: 0;
+      gap: 0.9rem;
     }
 
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.6rem;
-      font-size: 0.78rem;
+    .eyebrow {
+      font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-    }
-
-    .panel-header-left {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .panel-badge {
-      border-radius: var(--radius-pill);
-      padding: 0.12rem 0.65rem;
-      border: 1px solid rgba(94, 234, 212, 0.8);
+      letter-spacing: 0.18em;
       color: #a5f3fc;
-      font-size: 0.65rem;
-    }
-
-    .panel-body {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .panel-body strong {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-
-    .panel-footer {
-      margin-top: auto;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      opacity: 0.9;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
-    .pill-mini {
-      border-radius: var(--radius-pill);
-      padding: 0.14rem 0.6rem;
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      background: rgba(15, 23, 42, 0.95);
-      font-size: 0.7rem;
-      display: inline-flex;
-      gap: 0.35rem;
-      align-items: center;
-      color: var(--text-muted);
-    }
-
-    .pill-mini span {
-      white-space: nowrap;
-    }
-
-    /* === Arcade / Comet Chase === */
-
-    #arcade-canvas {
-      width: 100%;
-      height: clamp(230px, 40vh, 350px);
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(30, 64, 175, 0.85);
-      background: radial-gradient(circle at 50% 10%, #0f172a, #020617 70%, #000 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 14px 35px rgba(15, 23, 42, 0.95);
-      display: block;
-    }
-
-    .hud-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 0.5rem;
-      font-size: 0.76rem;
-      color: var(--text-muted);
-    }
-
-    .hud-item {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      padding: 0.28rem 0.7rem;
-      background: rgba(15, 23, 42, 0.95);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .hud-label {
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-size: 0.64rem;
-      color: #9ca3af;
-    }
-
-    .hud-value {
-      font-weight: 500;
-      color: #e5e7eb;
-    }
-
-    .meter {
-      flex: 1;
-      min-width: 140px;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .meter-bar {
-      flex: 1;
-      height: 6px;
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 1px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(55, 65, 81, 0.95);
+      background: linear-gradient(to right, transparent, #22c55e, #0ea5e9);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3.6vw, 3rem);
+      line-height: 1.04;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #22c55e, #0ea5e9, #a855f7, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 34rem;
+    }
+
+    .hero-subtitle strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .stat-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .hero-right {
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.25), transparent 60%),
+        rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: var(--shadow-strong);
+      padding: 0.85rem 0.85rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      position: relative;
       overflow: hidden;
     }
 
-    .meter-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #22c55e, #eab308, #f97316, #ef4444);
-      box-shadow: 0 0 12px rgba(248, 113, 113, 0.9);
-      transition: width 0.15s ease-out;
-    }
-
-    .hud-help {
-      margin-top: 0.35rem;
-      font-size: 0.74rem;
+    .hero-right-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
-    .hud-help kbd {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      border-radius: 4px;
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 0.08rem 0.22rem;
-      font-size: 0.7rem;
-    }
-
-    .game-overlay {
-      position: absolute;
-      inset: 0.7rem;
-      border-radius: var(--radius-md);
-      background: radial-gradient(circle at 10% 0%, rgba(148, 163, 184, 0.25), transparent 55%), rgba(15, 23, 42, 0.96);
+    .hero-feature {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.85);
+      background: radial-gradient(circle at 50% 0, #1d4ed8, #020617 70%);
+      min-height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      text-align: center;
     }
 
-    .game-overlay.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .game-overlay-inner {
-      max-width: 320px;
-      padding: 1.1rem 1rem;
-    }
-
-    .game-overlay-inner h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .game-overlay-inner p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 0.7rem;
-    }
-
-    /* === Field Lab === */
-
-    #field-canvas {
+    .hero-feature-inner {
+      position: relative;
       width: 100%;
-      height: clamp(230px, 40vh, 350px);
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(15, 23, 42, 0.95);
-      background: radial-gradient(circle at 50% 0%, #0f172a, #020617 70%);
-      box-shadow:
-        inset 0 0 0 1px rgba(30, 64, 175, 0.7),
-        0 16px 42px rgba(15, 23, 42, 0.95);
-      display: block;
+      height: 100%;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 0.8rem;
     }
 
-    .mode-buttons {
+    @media (max-width: 480px) {
+      .hero-feature-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .feature-art {
+      border-radius: 16px;
+      background: conic-gradient(from 180deg, #22c55e, #0ea5e9, #a855f7, #f97316, #22c55e);
+      padding: 2px;
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.85),
+        0 18px 40px rgba(15, 23, 42, 0.95),
+        0 0 40px rgba(56, 189, 248, 0.7);
+    }
+
+    .feature-art-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.4), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.5), transparent 60%),
+        radial-gradient(circle at 50% 30%, #020617, #000 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chip-orbit {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: orbit 20s linear infinite;
+    }
+
+    .chip-orbit span {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #fef9c3, #22c55e);
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.9);
+    }
+
+    .feature-core {
+      width: 68px;
+      height: 68px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #e5e7eb, #38bdf8 40%, #1d4ed8 70%, #020617 100%);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 18px 28px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(56, 189, 248, 0.9);
+    }
+
+    @keyframes orbit {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .feature-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .feature-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .feature-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
-      margin-top: 0.55rem;
     }
 
-    .mode-button {
+    .tag {
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      background: rgba(15, 23, 42, 0.95);
+      padding: 0.18rem 0.6rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.72rem;
       color: var(--text-muted);
-      font-size: 0.74rem;
-      padding: 0.25rem 0.7rem;
+    }
+
+    .hero-right-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* filters & controls */
+
+    .controls {
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(30, 64, 175, 0.75);
+      padding: 0.7rem 0.9rem 0.8rem;
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 180px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      padding: 0.35rem 0.7rem;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      flex: 1;
+    }
+
+    .search-box input::placeholder {
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .filter-pill {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      padding: 0.3rem 0.7rem;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
@@ -710,138 +571,516 @@
         transform 0.15s ease;
     }
 
-    .mode-button.active {
-      border-color: rgba(56, 189, 248, 0.9);
-      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.98));
+    .filter-pill.active {
+      border-color: rgba(56, 189, 248, 0.95);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.96));
       color: #e5e7eb;
       transform: translateY(-1px);
     }
 
-    .field-info {
+    .select {
+      position: relative;
+      min-width: 160px;
+    }
+
+    .select select {
+      width: 100%;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      padding: 0.34rem 0.75rem;
+      appearance: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select::after {
+      content: "▾";
+      position: absolute;
+      top: 50%;
+      right: 0.6rem;
+      transform: translateY(-50%);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* grid */
+
+    .grid-wrap {
+      margin-top: 1rem;
+    }
+
+    .grid-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    @media (max-width: 1020px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      position: relative;
+      border-radius: 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.9);
+      padding: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      cursor: pointer;
+      overflow: hidden;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 22px 60px rgba(15, 23, 42, 0.98),
+        0 0 30px rgba(56, 189, 248, 0.5);
+      border-color: rgba(56, 189, 248, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.98));
+    }
+
+    .card-media {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.5), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.6), transparent 60%),
+        radial-gradient(circle at 50% 30%, #020617, #000 70%);
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 20%, rgba(15, 23, 42, 0.5) 0, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.6) 0, transparent 55%);
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+    }
+
+    .card-orb {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #e5e7eb, #22c55e 40%, #0ea5e9 70%, #020617 100%);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 16px 30px rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(56, 189, 248, 0.8);
+      position: relative;
+    }
+
+    .card-shard {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      background: conic-gradient(from 0deg, #22c55e, #0ea5e9, #a855f7, #22c55e);
+      opacity: 0.8;
+      box-shadow: 0 0 24px rgba(129, 140, 248, 0.7);
+      transform: translate(20px, -30px) rotate(-12deg);
+    }
+
+    .card-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .card-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+    }
+
+    .card-title-main {
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .card-title-sub {
+      color: var(--text-muted);
+    }
+
+    .card-price {
+      text-align: right;
+      font-size: 0.78rem;
+    }
+
+    .card-price-eth {
+      font-weight: 600;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .pill-soft {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 0.15rem 0.55rem;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .likes {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .likes span.icon {
+      font-size: 0.95rem;
+    }
+
+    /* sidebar / activity */
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .panel {
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(30, 64, 175, 0.75);
+      padding: 0.85rem 0.9rem 0.9rem;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.96);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .panel-badge {
+      border-radius: var(--radius-pill);
+      padding: 0.18rem 0.55rem;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      color: #e0f2fe;
+      font-size: 0.65rem;
+    }
+
+    .activity-list {
       margin-top: 0.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 0.1rem;
+    }
+
+    .activity-item {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 0.32rem 0.45rem;
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .activity-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .activity-label {
+      font-size: 0.78rem;
+      color: #e5e7eb;
+    }
+
+    .activity-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .panel-footer {
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* modal drawer */
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      display: flex;
+      justify-content: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+      z-index: 30;
+    }
+
+    .drawer-backdrop.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      width: 420px;
+      max-width: 100%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 60%),
+        rgba(15, 23, 42, 0.98);
+      border-left: 1px solid rgba(30, 64, 175, 0.9);
+      box-shadow:
+        -20px 0 45px rgba(0,0,0,0.8),
+        0 0 30px rgba(37, 99, 235, 0.6);
+      transform: translateX(100%);
+      transition: transform 0.26s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-backdrop.visible .drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 0.9rem 1rem 0.6rem;
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .drawer-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .drawer-title-main {
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .drawer-title-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .drawer-close {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition:
+        border-color 0.16s ease,
+        background 0.16s ease,
+        transform 0.15s ease;
+    }
+
+    .drawer-close:hover {
+      border-color: rgba(248, 113, 113, 0.9);
+      background: rgba(30, 64, 175, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .drawer-body {
+      padding: 0.8rem 1rem 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .drawer-media {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.95);
+      background: radial-gradient(circle at 50% 0, #1d4ed8, #020617 70%);
+      height: 180px;
+      margin-bottom: 0.2rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drawer-orb {
+      width: 90px;
+      height: 90px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #fef9c3, #22c55e 35%, #0ea5e9 65%, #020617 100%);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 22px 35px rgba(0, 0, 0, 0.9),
+        0 0 45px rgba(56, 189, 248, 0.9);
+    }
+
+    .drawer-attr-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .attr-pill {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 0.4rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .attr-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .attr-value {
+      font-size: 0.82rem;
+      color: var(--text-main);
+    }
+
+    .bid-box {
+      margin-top: 0.4rem;
+      border-radius: 16px;
+      border: 1px solid rgba(34, 197, 94, 0.85);
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.2), rgba(15, 23, 42, 0.98));
+      padding: 0.6rem 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bid-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .bid-row h4 {
+      font-size: 0.85rem;
+    }
+
+    .bid-row .price {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+    }
+
+    .slider-row input[type="range"] {
+      flex: 1;
+      accent-color: #22c55e;
+    }
+
+    .confirm-text {
       font-size: 0.74rem;
       color: var(--text-muted);
     }
 
-    /* === Lore Terminal === */
-
-    .terminal {
-      position: relative;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(30, 64, 175, 0.85);
-      background: radial-gradient(circle at 0 0, rgba(37, 99, 235, 0.35), transparent 55%), #020617;
-      box-shadow:
-        inset 0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 18px 50px rgba(15, 23, 42, 0.9);
-      padding: 0.75rem 0.85rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.78rem;
-      color: #e5e7eb;
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .terminal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.7rem;
-      color: #9ca3af;
-    }
-
-    .terminal-prompt {
-      color: #22c55e;
-    }
-
-    .terminal-body {
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 0.25rem;
-    }
-
-    .terminal-line {
-      margin-bottom: 0.25rem;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 7px;
-      margin-left: 2px;
-      background: #e5e7eb;
-      animation: blink 1s step-start infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      50.01%, 100% { opacity: 0; }
-    }
-
-    .choice-row {
-      margin-top: 0.4rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .choice-button {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      background: rgba(15, 23, 42, 0.95);
-      color: #e5e7eb;
-      padding: 0.22rem 0.7rem;
+    .note {
       font-size: 0.72rem;
-      cursor: pointer;
-      transition:
-        border-color 0.15s ease,
-        background 0.15s ease,
-        transform 0.15s ease;
-    }
-
-    .choice-button:hover {
-      border-color: rgba(34, 197, 94, 0.9);
-      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.3), rgba(15, 23, 42, 0.98));
-      transform: translateY(-1px);
-    }
-
-    /* bottom stripe */
-
-    .bottom-bar {
-      border-top: 1px solid rgba(30, 64, 175, 0.7);
-      padding: 0.5rem 1.1rem;
-      font-size: 0.72rem;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.6rem;
+      margin-top: 0.3rem;
       color: var(--text-muted);
-      background: linear-gradient(to right, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.92));
     }
 
-    .bottom-left {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
+    /* footer */
+
+    .footer {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      padding: 0.5rem 1.4rem 0.8rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
     }
 
-    .bottom-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: radial-gradient(circle, #22c55e, #15803d);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.9);
+    @media (max-width: 640px) {
+      .nav-inner,
+      .page,
+      .footer {
+        padding-inline: 1rem;
+      }
+      .footer {
+        flex-direction: column;
+      }
     }
-
-    .bottom-right {
-      max-width: 420px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      opacity: 0.9;
-    }
-
-    /* tiny scrollbar */
 
     ::-webkit-scrollbar {
       width: 8px;
@@ -853,1175 +1092,775 @@
       background: rgba(30, 64, 175, 0.6);
       border-radius: 999px;
     }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 1.1rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <canvas id="starfield"></canvas>
-  <div class="nebula n1"></div>
-  <div class="nebula n2"></div>
-  <div class="nebula n3"></div>
+  <!-- background orbs -->
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
 
-  <div class="shell">
-    <div class="top-bar">
-      <div class="top-left">
-        <div class="traffic-lights">
-          <div class="traffic-dot"></div>
-          <div class="traffic-dot"></div>
-          <div class="traffic-dot"></div>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="logo">
+          <div class="logo-inner">◎</div>
         </div>
-        <div class="title-block">
-          <div class="title-main">subdomain control center</div>
-          <div class="title-sub">a tiny multiverse hiding behind a single CNAME record</div>
+        <div class="brand-text">
+          <div class="brand-title">orbital bazaar</div>
+          <div class="brand-subtitle">a fake but fully interactive nft-style marketplace</div>
         </div>
       </div>
 
-      <div class="top-right">
+      <nav class="nav-links">
+        <span class="nav-link">Explore</span>
+        <span class="nav-link">Trending</span>
+        <span class="nav-link">Auctions</span>
+        <span class="nav-link">Playground</span>
+      </nav>
+
+      <div class="nav-right">
         <div class="pill">
           <span class="pill-dot"></span>
-          <span id="status-pill-text">online · idle</span>
+          <span>connected · testingdomconnect.crewr.co</span>
         </div>
-        <span id="clock-text">--:--:--</span>
+        <button class="button primary" type="button">
+          <span>Fake connect wallet</span>
+        </button>
       </div>
     </div>
+  </header>
 
-    <div class="main-layout">
-      <aside class="sidebar">
-        <div>
-          <div class="sidebar-heading">apps</div>
-          <div class="app-list">
-            <button class="app-button active" data-app="arcade">
-              <div class="app-button-header">
-                <div class="app-button-title">
-                  <div class="app-icon">🎮</div>
-                  <span>Arcade · Comet Chase</span>
-                </div>
-                <span class="app-tag">real-time</span>
-              </div>
-              <div class="app-desc">
-                Drift through a starfield, collect shards, and dodge cosmic debris.
-              </div>
-            </button>
+  <main class="page">
+    <section>
+      <section class="hero">
+        <div class="hero-left">
+          <div class="eyebrow">live from your subdomain</div>
+          <h1 class="hero-title">
+            Trade <span>imaginary artifacts</span> in a very real interface.
+          </h1>
+          <p class="hero-subtitle">
+            Orbital Bazaar is a <strong>front-end only</strong> marketplace simulation.
+            All the interactivity, none of the blockchain –
+            just a playground wired to your domain.
+          </p>
 
-            <button class="app-button" data-app="field">
-              <div class="app-button-header">
-                <div class="app-button-title">
-                  <div class="app-icon">🌀</div>
-                  <span>Field Lab</span>
-                </div>
-                <span class="app-tag">interactive</span>
-              </div>
-              <div class="app-desc">
-                A particle field that bends, swirls, and spirals around your cursor.
-              </div>
+          <div class="hero-actions">
+            <button class="button primary" type="button" id="cta-featured">
+              <span>Jump to featured drop</span>
+              <span>⟶</span>
             </button>
+            <button class="button" type="button" id="cta-random">
+              <span>Randomize marketplace</span>
+            </button>
+          </div>
 
-            <button class="app-button" data-app="lore">
-              <div class="app-button-header">
-                <div class="app-button-title">
-                  <div class="app-icon">📜</div>
-                  <span>Lore Terminal</span>
-                </div>
-                <span class="app-tag">story</span>
-              </div>
-              <div class="app-desc">
-                Discover the legend of your subdomain in a tiny branching console.
-              </div>
-            </button>
+          <div class="hero-stats">
+            <div class="stat-block">
+              <div class="stat-value" id="stat-listed">0</div>
+              <div class="stat-label">Items simulated</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-value" id="stat-creators">0</div>
+              <div class="stat-label">Imaginary creators</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-value" id="stat-volume">0.0Ξ</div>
+              <div class="stat-label">Fictional 24h volume</div>
+            </div>
           </div>
         </div>
 
-        <div class="sidebar-footer">
-          <div>Connected to: <strong>testingdomconnect.crewr.co</strong></div>
-          <div>Served via: <strong>GitHub Pages · HTTPS</strong></div>
-        </div>
-      </aside>
+        <div class="hero-right">
+          <div class="hero-right-header">
+            <span>Featured simulation</span>
+            <span id="hero-badge">rotating spotlight</span>
+          </div>
 
-      <section class="content">
-        <div class="content-header">
-          <div class="content-title">
-            <div class="content-title-main">
-              <span id="app-title-label">Arcade · Comet Chase</span>
-              <span class="pill-soft" id="app-label-tag">LIVE MODULE</span>
-            </div>
-            <div class="content-title-sub" id="app-subtitle">
-              Use WASD or arrows to slip through the void, grab shards, and avoid the red hazards.
+          <div class="hero-feature" id="hero-feature-card">
+            <div class="hero-feature-inner">
+              <div class="feature-art">
+                <div class="feature-art-inner">
+                  <div class="chip-orbit"><span></span></div>
+                  <div class="feature-core"></div>
+                </div>
+              </div>
+              <div class="feature-meta">
+                <div class="feature-title" id="feature-title">—</div>
+                <div class="feature-sub" id="feature-sub">—</div>
+                <div class="feature-row">
+                  <span class="tag" id="feature-category">Category: —</span>
+                  <span class="tag" id="feature-price">Current: — Ξ</span>
+                  <span class="tag" id="feature-ends">Ends: —</span>
+                </div>
+                <p class="note" style="margin-top: 0.4rem;">
+                  Click any card below to open a full detail drawer with rarity, attributes and a mock bid slider.
+                </p>
+              </div>
             </div>
           </div>
 
-          <div class="content-controls">
-            <button class="small-button primary" id="focus-arcade">
-              <span>Jump into arcade</span> <span>⟶</span>
-            </button>
-            <button class="small-button" id="randomize-status">
-              Shuffle status line
-            </button>
-          </div>
-        </div>
-
-        <div class="apps">
-          <!-- Arcade -->
-          <div class="app active" id="app-arcade">
-            <div class="app-grid">
-              <article class="panel" style="position: relative;">
-                <div class="panel-header">
-                  <div class="panel-header-left">
-                    <span>COMET CHASE · LIVE</span>
-                    <span class="panel-badge">WASD / ARROWS</span>
-                  </div>
-                  <span>module 01</span>
-                </div>
-                <canvas id="arcade-canvas"></canvas>
-
-                <div class="hud-row">
-                  <div class="hud-item">
-                    <span class="hud-label">Score</span>
-                    <span class="hud-value" id="score-value">0</span>
-                  </div>
-                  <div class="hud-item meter">
-                    <span class="hud-label">Shields</span>
-                    <div class="meter-bar">
-                      <div class="meter-fill" id="shield-fill"></div>
-                    </div>
-                  </div>
-                  <div class="hud-item">
-                    <span class="hud-label">Difficulty</span>
-                    <span class="hud-value" id="diff-label">Drift</span>
-                  </div>
-                </div>
-                <div class="hud-help">
-                  Avoid red hazards, collect cyan shards. Your shield will deplete on impact and slowly recharge when you're safe.
-                  <br />
-                  Movement: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrow keys.
-                </div>
-
-                <div class="game-overlay" id="arcade-overlay">
-                  <div class="game-overlay-inner">
-                    <h3>Signal lost 💥</h3>
-                    <p id="arcade-final-text">
-                      You gathered 0 shards before the hull gave out.
-                    </p>
-                    <button class="small-button primary" id="arcade-restart">
-                      Play again
-                    </button>
-                  </div>
-                </div>
-              </article>
-
-              <article class="panel">
-                <div class="panel-header">
-                  <div class="panel-header-left">
-                    <span>TELEMETRY</span>
-                  </div>
-                  <span>side channel</span>
-                </div>
-                <div class="panel-body">
-                  <p>
-                    This panel pretends to be a serious analytics dashboard, but really it's just admiring the
-                    fact that <strong>a random HTML file</strong> is being treated like a full-blown console app.
-                  </p>
-                  <p style="margin-top: 0.5rem;">
-                    <strong>Tips for max chaos:</strong>
-                  </p>
-                  <ul style="margin-top: 0.3rem; padding-left: 1rem; list-style: disc;">
-                    <li>See how long you can hover near hazards without actually colliding.</li>
-                    <li>Try flying only diagonally for no good reason.</li>
-                    <li>Pretend these numbers are production metrics. They are absolutely not.</li>
-                  </ul>
-                </div>
-                <div class="panel-footer">
-                  <div class="pill-mini">
-                    <span>🎯 Sessions today:</span>
-                    <span id="session-counter">1</span>
-                  </div>
-                  <div class="pill-mini">
-                    <span>⚡ Render loop:</span>
-                    <span>requestAnimationFrame()</span>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <!-- Field Lab -->
-          <div class="app" id="app-field">
-            <div class="app-grid">
-              <article class="panel">
-                <div class="panel-header">
-                  <div class="panel-header-left">
-                    <span>FIELD LAB</span>
-                    <span class="panel-badge">cursor reactive</span>
-                  </div>
-                  <span>module 02</span>
-                </div>
-                <canvas id="field-canvas"></canvas>
-                <div class="mode-buttons">
-                  <button class="mode-button active" data-mode="attract">
-                    <span>Attract</span>
-                    <span>↦</span>
-                  </button>
-                  <button class="mode-button" data-mode="repel">
-                    <span>Repel</span>
-                    <span>↤</span>
-                  </button>
-                  <button class="mode-button" data-mode="orbit">
-                    <span>Orbit</span>
-                    <span>⤾</span>
-                  </button>
-                  <button class="mode-button" data-mode="drift">
-                    <span>Drift</span>
-                    <span>⋯</span>
-                  </button>
-                </div>
-                <div class="field-info" id="field-info">
-                  Mode: <strong>Attract</strong> – move your cursor to pull the particles into a shimmering stream.
-                </div>
-              </article>
-
-              <article class="panel">
-                <div class="panel-header">
-                  <div class="panel-header-left">
-                    <span>NOTES FROM THE LAB</span>
-                  </div>
-                  <span>log 02</span>
-                </div>
-                <div class="panel-body">
-                  <p>
-                    Sometimes you don't want a game, you just want
-                    <strong>pretty math</strong> you can wave your mouse through.
-                  </p>
-                  <p style="margin-top: 0.4rem;">
-                    Each particle is gently nudged every frame based on your mode selection.
-                    The rules are simple, but the motion feels strangely alive.
-                  </p>
-                  <p style="margin-top: 0.4rem;">
-                    You're basically conducting a tiny orchestra of dots.
-                  </p>
-                </div>
-                <div class="panel-footer">
-                  <div class="pill-mini">
-                    <span>🧪 Particles:</span>
-                    <span id="particle-count">0</span>
-                  </div>
-                  <div class="pill-mini">
-                    <span>🎨 Visual style:</span>
-                    <span>nebula lines</span>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <!-- Lore Terminal -->
-          <div class="app" id="app-lore">
-            <div class="app-grid">
-              <article class="panel">
-                <div class="panel-header">
-                  <div class="panel-header-left">
-                    <span>LORE TERMINAL</span>
-                    <span class="panel-badge">branching text</span>
-                  </div>
-                  <span>module 03</span>
-                </div>
-                <div class="terminal">
-                  <div class="terminal-header">
-                    <span class="terminal-prompt">subdomain@control-center</span>
-                    <span>story shell v0.1</span>
-                  </div>
-                  <div class="terminal-body" id="terminal-body"></div>
-                  <div class="choice-row" id="choice-row"></div>
-                </div>
-              </article>
-
-              <article class="panel">
-                <div class="panel-header">
-                  <div class="panel-header-left">
-                    <span>SESSION ANOMALIES</span>
-                  </div>
-                  <span>log 03</span>
-                </div>
-                <div class="panel-body">
-                  <p>
-                    Somewhere between “toy project” and “full stack app” is a wonderful gray area
-                    where you wire a domain into pure whimsy.
-                  </p>
-                  <p style="margin-top: 0.4rem;">
-                    This terminal doesn't persist anything, doesn't write to any database,
-                    and yet it feels like a tiny universe with its own rules.
-                  </p>
-                  <p style="margin-top: 0.4rem;">
-                    The unofficial name for this state of mind is
-                    <strong>“creative overengineering just because we can.”</strong>
-                  </p>
-                </div>
-                <div class="panel-footer">
-                  <div class="pill-mini">
-                    <span>📚 Story length:</span>
-                    <span>tiny but replayable</span>
-                  </div>
-                  <div class="pill-mini">
-                    <span>🔐 Data stored:</span>
-                    <span>0 bytes · just vibes</span>
-                  </div>
-                </div>
-              </article>
-            </div>
+          <div class="hero-right-footer">
+            <span>Everything here is fake but the UI is real.</span>
+            <span id="hero-mini-stat">0 collectors watching</span>
           </div>
         </div>
       </section>
-    </div>
 
-    <div class="bottom-bar">
-      <div class="bottom-left">
-        <span class="bottom-dot"></span>
-        <span id="bottom-status">ready · choose a module on the left to start exploring.</span>
+      <section class="controls">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="search-input" placeholder="Search by name, creator, or vibes…" />
+        </div>
+        <div class="filter-row">
+          <button class="filter-pill active" data-category="all">
+            <span>All types</span>
+          </button>
+          <button class="filter-pill" data-category="character">
+            <span>Characters</span>
+          </button>
+          <button class="filter-pill" data-category="landscape">
+            <span>Landscapes</span>
+          </button>
+          <button class="filter-pill" data-category="abstract">
+            <span>Abstract</span>
+          </button>
+          <button class="filter-pill" data-category="glitch">
+            <span>Glitch</span>
+          </button>
+        </div>
+        <div class="select">
+          <select id="sort-select">
+            <option value="trending">Sort: Trending</option>
+            <option value="new">Sort: Newest</option>
+            <option value="price-asc">Sort: Price low → high</option>
+            <option value="price-desc">Sort: Price high → low</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="grid-wrap">
+        <div class="grid-header">
+          <span id="grid-summary">Loading items…</span>
+          <span>Tip: Heart a piece or open its drawer to see it show up in the activity feed.</span>
+        </div>
+        <div class="grid" id="nft-grid"></div>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">activity feed</div>
+            <div style="font-size: 0.72rem;">local-only events from your clicks</div>
+          </div>
+          <span class="panel-badge">simulated</span>
+        </div>
+        <div class="activity-list" id="activity-list"></div>
+        <div class="panel-footer">
+          Nothing leaves this page. It’s all in-memory – refresh and the entire “market” resets.
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-title">about this page</div>
+          <span>v0.1</span>
+        </div>
+        <p>
+          This is a fully client-side NFT-style marketplace UI living on your custom domain.
+          No backend, no real purchases – just an over-the-top front-end playground.
+        </p>
+        <p style="margin-top: 0.4rem;">
+          Everything you click (likes, filters, sorting, bid slider, detail drawer) updates live in the browser.
+        </p>
+        <p style="margin-top: 0.4rem;">
+          If you ever want to turn this into a real project, you already have the shell of a pretty serious interface.
+        </p>
+      </section>
+    </aside>
+  </main>
+
+  <!-- detail drawer -->
+  <div class="drawer-backdrop" id="drawer-backdrop">
+    <div class="drawer">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <div class="drawer-title-main" id="drawer-title">—</div>
+          <div class="drawer-title-sub" id="drawer-sub">—</div>
+        </div>
+        <button class="drawer-close" id="drawer-close" type="button">✕</button>
       </div>
-      <div class="bottom-right" id="ticker-text">
-        tip: you can completely redesign this console and still keep it all in a single index.html file.
+      <div class="drawer-body">
+        <div class="drawer-media">
+          <div class="drawer-orb"></div>
+        </div>
+        <p id="drawer-desc">
+          —
+        </p>
+
+        <div class="drawer-attr-grid" style="margin-top: 0.4rem;">
+          <div class="attr-pill">
+            <div class="attr-label">current price</div>
+            <div class="attr-value" id="drawer-price">— Ξ</div>
+          </div>
+          <div class="attr-pill">
+            <div class="attr-label">rarity tier</div>
+            <div class="attr-value" id="drawer-rarity">—</div>
+          </div>
+          <div class="attr-pill">
+            <div class="attr-label">category</div>
+            <div class="attr-value" id="drawer-category">—</div>
+          </div>
+          <div class="attr-pill">
+            <div class="attr-label">likes</div>
+            <div class="attr-value" id="drawer-likes">—</div>
+          </div>
+        </div>
+
+        <div class="bid-box">
+          <div class="bid-row">
+            <h4>Place a pretend bid</h4>
+            <div class="price" id="drawer-bid-value">0.00 Ξ</div>
+          </div>
+          <div class="slider-row">
+            <span style="font-size: 0.72rem;">0.00Ξ</span>
+            <input type="range" id="bid-slider" min="0" max="300" value="0" />
+            <span style="font-size: 0.72rem;">3.00Ξ</span>
+          </div>
+          <button class="button primary" type="button" id="bid-button">
+            <span>Confirm fake bid</span>
+          </button>
+          <p class="confirm-text" id="bid-confirm-text">
+            This updates the activity feed only. Blockchain nowhere in sight.
+          </p>
+        </div>
+
+        <p class="note">
+          Note: This is not a real marketplace. Prices and items are randomly generated in your browser. No actual NFTs are created, stored, or traded.
+        </p>
       </div>
     </div>
   </div>
 
+  <footer class="footer">
+    <span>Orbital Bazaar · a playful marketplace simulation on <strong>testingdomconnect.crewr.co</strong></span>
+    <span>Built with plain HTML, CSS & JS. All data is reset on refresh.</span>
+  </footer>
+
   <script>
-    // === starfield background ===
-    (function () {
-      const canvas = document.getElementById("starfield");
-      const ctx = canvas.getContext("2d");
-      const stars = [];
-      const STAR_COUNT = 140;
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    // === Data setup ===
+    const NFTS = [
+      {
+        id: "orb-001",
+        name: "Solar Echo #01",
+        creator: "NovaCircuit",
+        category: "abstract",
+        price: 1.25,
+        likes: 32,
+        endsIn: "3h 12m",
+        rarity: "Mythic",
+        blurb: "A looping reflection of light across an impossible orb, trapped between frames."
+      },
+      {
+        id: "orb-002",
+        name: "Desert Drifter",
+        creator: "Sandwalker",
+        category: "landscape",
+        price: 0.68,
+        likes: 19,
+        endsIn: "5h 03m",
+        rarity: "Rare",
+        blurb: "A lone traveler crossing an endless dune, rendered in spectral gradients."
+      },
+      {
+        id: "orb-003",
+        name: "Glitched Beacon",
+        creator: "ErrorGarden",
+        category: "glitch",
+        price: 0.42,
+        likes: 41,
+        endsIn: "47m",
+        rarity: "Epic",
+        blurb: "A lighthouse blinking in broken frames, caught mid-corruption."
+      },
+      {
+        id: "orb-004",
+        name: "Orbiting Familiar",
+        creator: "PixelMage",
+        category: "character",
+        price: 2.05,
+        likes: 58,
+        endsIn: "1d 4h",
+        rarity: "Legendary",
+        blurb: "A tiny companion sprite endlessly circling your cursor in another timeline."
+      },
+      {
+        id: "orb-005",
+        name: "Nebula Window",
+        creator: "DeepSky Studio",
+        category: "landscape",
+        price: 0.88,
+        likes: 27,
+        endsIn: "6h 21m",
+        rarity: "Rare",
+        blurb: "A cut-out in space where color leaks in from a neighboring universe."
+      },
+      {
+        id: "orb-006",
+        name: "Soft Glitch Bloom",
+        creator: "SignalBlossom",
+        category: "glitch",
+        price: 0.33,
+        likes: 14,
+        endsIn: "2h 09m",
+        rarity: "Uncommon",
+        blurb: "Petals of broken pixels blooming exactly once per refresh."
+      },
+      {
+        id: "orb-007",
+        name: "Echoed Wanderer",
+        creator: "LoopNomad",
+        category: "character",
+        price: 1.72,
+        likes: 36,
+        endsIn: "9h 55m",
+        rarity: "Epic",
+        blurb: "A stylized silhouette walking in a loop, leaving trails of color behind."
+      },
+      {
+        id: "orb-008",
+        name: "City at Apogee",
+        creator: "OrbitWorks",
+        category: "landscape",
+        price: 1.1,
+        likes: 29,
+        endsIn: "4h 18m",
+        rarity: "Epic",
+        blurb: "A city clinging to the inner curve of an invisible sphere."
+      },
+      {
+        id: "orb-009",
+        name: "Aurora Spill",
+        creator: "PolarNoise",
+        category: "abstract",
+        price: 0.59,
+        likes: 23,
+        endsIn: "33m",
+        rarity: "Rare",
+        blurb: "Northern lights spilled across a perfectly circular horizon."
+      },
+      {
+        id: "orb-010",
+        name: "Terminal Mirage",
+        creator: "ConsoleDreams",
+        category: "glitch",
+        price: 0.77,
+        likes: 17,
+        endsIn: "7h 44m",
+        rarity: "Uncommon",
+        blurb: "A debug window captured at the exact moment it became self-aware."
+      },
+      {
+        id: "orb-011",
+        name: "Praxis Sprite",
+        creator: "LabFiction",
+        category: "character",
+        price: 1.39,
+        likes: 22,
+        endsIn: "18h 22m",
+        rarity: "Rare",
+        blurb: "A pixel spirit that only appears on lab environments and side projects."
+      },
+      {
+        id: "orb-012",
+        name: "Ocean Lens",
+        creator: "Tideglass",
+        category: "abstract",
+        price: 0.51,
+        likes: 11,
+        endsIn: "1h 11m",
+        rarity: "Common",
+        blurb: "A magnifying droplet floating over a stylized sea of gradients."
       }
-      window.addEventListener("resize", resize);
-      resize();
+    ];
 
-      function makeStar() {
-        return {
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 1.5 + 0.4,
-          alpha: Math.random() * 0.6 + 0.2,
-          speed: Math.random() * 0.25 + 0.05
-        };
+    // Make a deep-ish copy so we can mutate likes etc
+    const marketItems = NFTS.map(n => ({
+      ...n,
+      likes: n.likes + Math.floor(Math.random() * 18),
+      createdAt: Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24),
+      trendingScore: Math.random()
+    }));
+
+    // === DOM refs ===
+    const gridEl = document.getElementById("nft-grid");
+    const gridSummaryEl = document.getElementById("grid-summary");
+    const statListedEl = document.getElementById("stat-listed");
+    const statCreatorsEl = document.getElementById("stat-creators");
+    const statVolumeEl = document.getElementById("stat-volume");
+    const heroMiniStatEl = document.getElementById("hero-mini-stat");
+
+    const featureTitleEl = document.getElementById("feature-title");
+    const featureSubEl = document.getElementById("feature-sub");
+    const featureCatEl = document.getElementById("feature-category");
+    const featurePriceEl = document.getElementById("feature-price");
+    const featureEndsEl = document.getElementById("feature-ends");
+    const heroBadgeEl = document.getElementById("hero-badge");
+
+    const activityListEl = document.getElementById("activity-list");
+
+    const searchInputEl = document.getElementById("search-input");
+    const filterPills = Array.from(document.querySelectorAll(".filter-pill"));
+    const sortSelectEl = document.getElementById("sort-select");
+    const ctaFeaturedBtn = document.getElementById("cta-featured");
+    const ctaRandomBtn = document.getElementById("cta-random");
+
+    // drawer elements
+    const drawerBackdropEl = document.getElementById("drawer-backdrop");
+    const drawerCloseEl = document.getElementById("drawer-close");
+    const drawerTitleEl = document.getElementById("drawer-title");
+    const drawerSubEl = document.getElementById("drawer-sub");
+    const drawerDescEl = document.getElementById("drawer-desc");
+    const drawerPriceEl = document.getElementById("drawer-price");
+    const drawerRarityEl = document.getElementById("drawer-rarity");
+    const drawerCategoryEl = document.getElementById("drawer-category");
+    const drawerLikesEl = document.getElementById("drawer-likes");
+    const bidSliderEl = document.getElementById("bid-slider");
+    const bidValueEl = document.getElementById("drawer-bid-value");
+    const bidButtonEl = document.getElementById("bid-button");
+    const bidConfirmTextEl = document.getElementById("bid-confirm-text");
+
+    // === State ===
+    const state = {
+      search: "",
+      category: "all",
+      sort: "trending",
+      favourites: new Set(),
+      currentItemId: null
+    };
+
+    // === Helpers ===
+    function formatPrice(price) {
+      return price.toFixed(2);
+    }
+
+    function formatVolume(items) {
+      const total = items.reduce((sum, n) => sum + n.price, 0);
+      return total.toFixed(2) + "Ξ";
+    }
+
+    function uniqCreators(items) {
+      return new Set(items.map(n => n.creator)).size;
+    }
+
+    function addActivity(text, meta) {
+      const item = document.createElement("div");
+      item.className = "activity-item";
+
+      const main = document.createElement("div");
+      main.className = "activity-main";
+
+      const label = document.createElement("div");
+      label.className = "activity-label";
+      label.textContent = text;
+
+      const metaEl = document.createElement("div");
+      metaEl.textContent = meta || "";
+      metaEl.className = "activity-meta";
+
+      main.appendChild(label);
+      main.appendChild(metaEl);
+
+      const time = document.createElement("div");
+      time.className = "activity-meta";
+      const now = new Date();
+      time.textContent = now.toLocaleTimeString();
+
+      item.appendChild(main);
+      item.appendChild(time);
+
+      activityListEl.prepend(item);
+    }
+
+    // === Rendering ===
+    function getFilteredSortedItems() {
+      const query = state.search.trim().toLowerCase();
+      let items = [...marketItems];
+
+      if (state.category !== "all") {
+        items = items.filter(n => n.category === state.category);
       }
 
-      for (let i = 0; i < STAR_COUNT; i++) stars.push(makeStar());
-
-      function loop() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save();
-        ctx.globalCompositeOperation = "lighter";
-
-        stars.forEach(s => {
-          s.y += s.speed;
-          if (s.y > canvas.height + 6) {
-            s.y = -6;
-            s.x = Math.random() * canvas.width;
-          }
-          const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 4);
-          g.addColorStop(0, "rgba(226,232,240," + s.alpha + ")");
-          g.addColorStop(1, "rgba(15,23,42,0)");
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.size * 3, 0, Math.PI * 2);
-          ctx.fill();
+      if (query) {
+        items = items.filter(n => {
+          return (
+            n.name.toLowerCase().includes(query) ||
+            n.creator.toLowerCase().includes(query)
+          );
         });
-
-        ctx.restore();
-        requestAnimationFrame(loop);
-      }
-      loop();
-    })();
-
-    // === small clock + status shuffle ===
-    (function () {
-      const clock = document.getElementById("clock-text");
-      const statusPill = document.getElementById("status-pill-text");
-      const ticker = document.getElementById("ticker-text");
-      const shuffleBtn = document.getElementById("randomize-status");
-
-      const statuses = [
-        "online · idle",
-        "online · drifting through CSS nebulae",
-        "online · listening for stray DNS packets",
-        "online · waiting for another overbuilt idea",
-        "online · pretending to be a serious dashboard"
-      ];
-
-      const tips = [
-        "tip: a GitHub Pages site can be as playful as any game, it's just HTML and imagination.",
-        "tip: subdomains are like alternate universes. you can make as many as your DNS allows.",
-        "tip: the best experiments rarely have a business case.",
-        "tip: you can fork this page and turn it into your own little operating system.",
-        "tip: if it makes you smile when you deploy, it was worth building."
-      ];
-
-      function updateClock() {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        const ss = String(now.getSeconds()).padStart(2, "0");
-        clock.textContent = hh + ":" + mm + ":" + ss;
       }
 
-      let statusIndex = 0;
-      let tipIndex = 0;
-      function setStatus() {
-        statusPill.textContent = statuses[statusIndex % statuses.length];
-        ticker.textContent = tips[tipIndex % tips.length];
-        statusIndex++;
-        tipIndex++;
+      if (state.sort === "trending") {
+        items.sort((a, b) => b.trendingScore - a.trendingScore);
+      } else if (state.sort === "new") {
+        items.sort((a, b) => b.createdAt - a.createdAt);
+      } else if (state.sort === "price-asc") {
+        items.sort((a, b) => a.price - b.price);
+      } else if (state.sort === "price-desc") {
+        items.sort((a, b) => b.price - a.price);
       }
 
-      updateClock();
-      setStatus();
-      setInterval(updateClock, 1000);
+      return items;
+    }
 
-      shuffleBtn.addEventListener("click", setStatus);
-    })();
+    function renderGrid() {
+      const items = getFilteredSortedItems();
+      gridEl.innerHTML = "";
 
-    // === app switching ===
-    (function () {
-      const buttons = Array.from(document.querySelectorAll(".app-button"));
-      const apps = {
-        arcade: document.getElementById("app-arcade"),
-        field: document.getElementById("app-field"),
-        lore: document.getElementById("app-lore")
-      };
+      items.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = item.id;
 
-      const titleLabel = document.getElementById("app-title-label");
-      const labelTag = document.getElementById("app-label-tag");
-      const subtitle = document.getElementById("app-subtitle");
-      const bottomStatus = document.getElementById("bottom-status");
-      const focusArcade = document.getElementById("focus-arcade");
+        const media = document.createElement("div");
+        media.className = "card-media";
+        const orb = document.createElement("div");
+        orb.className = "card-orb";
+        const shard = document.createElement("div");
+        shard.className = "card-shard";
+        media.appendChild(orb);
+        media.appendChild(shard);
 
-      const appMeta = {
-        arcade: {
-          title: "Arcade · Comet Chase",
-          tag: "LIVE MODULE",
-          subtitle: "Use WASD or arrows to slip through the void, grab shards, and avoid the red hazards.",
-          status: "arcade: shields ready · drift carefully."
-        },
-        field: {
-          title: "Field Lab · Particle Playground",
-          tag: "EXPERIMENT",
-          subtitle: "Move your cursor and switch modes to sculpt how hundreds of particles flow.",
-          status: "field lab: cursor = gravity source."
-        },
-        lore: {
-          title: "Lore Terminal · Subdomain Story",
-          tag: "TEXT MODE",
-          subtitle: "Click choices to uncover a tiny branching story about your accidental space station.",
-          status: "terminal: listening for narrative input."
-        }
-      };
+        const info = document.createElement("div");
+        info.className = "card-info";
 
-      function activateApp(name) {
-        buttons.forEach(btn => {
-          btn.classList.toggle("active", btn.dataset.app === name);
-        });
-        Object.keys(apps).forEach(key => {
-          apps[key].classList.toggle("active", key === name);
-        });
+        const title = document.createElement("div");
+        title.className = "card-title";
+        const main = document.createElement("div");
+        main.className = "card-title-main";
+        main.textContent = item.name;
+        const sub = document.createElement("div");
+        sub.className = "card-title-sub";
+        sub.textContent = "by " + item.creator;
+        title.appendChild(main);
+        title.appendChild(sub);
 
-        const meta = appMeta[name];
-        titleLabel.textContent = meta.title;
-        labelTag.textContent = meta.tag;
-        subtitle.textContent = meta.subtitle;
-        bottomStatus.textContent = meta.status;
-      }
+        const price = document.createElement("div");
+        price.className = "card-price";
+        const label = document.createElement("div");
+        label.textContent = "Price";
+        label.style.color = "var(--text-muted)";
+        const val = document.createElement("div");
+        val.className = "card-price-eth";
+        val.textContent = formatPrice(item.price) + " Ξ";
+        price.appendChild(label);
+        price.appendChild(val);
 
-      buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          activateApp(btn.dataset.app);
-        });
+        info.appendChild(title);
+        info.appendChild(price);
+
+        const bottom = document.createElement("div");
+        bottom.className = "card-bottom";
+
+        const pill = document.createElement("div");
+        pill.className = "pill-soft";
+        pill.textContent = item.rarity + " · ends in " + item.endsIn;
+
+        const likes = document.createElement("div");
+        likes.className = "likes";
+        likes.dataset.id = item.id;
+        const heart = document.createElement("span");
+        heart.className = "icon";
+        const isFav = state.favourites.has(item.id);
+        heart.textContent = isFav ? "❤️" : "🤍";
+        const count = document.createElement("span");
+        count.textContent = item.likes + (isFav ? 1 : 0);
+        likes.appendChild(heart);
+        likes.appendChild(count);
+
+        bottom.appendChild(pill);
+        bottom.appendChild(likes);
+
+        card.appendChild(media);
+        card.appendChild(info);
+        card.appendChild(bottom);
+
+        gridEl.appendChild(card);
       });
 
-      focusArcade.addEventListener("click", () => {
-        activateApp("arcade");
+      // summary
+      const total = marketItems.length;
+      if (items.length === total) {
+        gridSummaryEl.textContent = `${items.length} items · showing all`;
+      } else {
+        gridSummaryEl.textContent = `${items.length} items matched your filters (of ${total} total)`;
+      }
+
+      // update hero stats
+      statListedEl.textContent = total;
+      statCreatorsEl.textContent = uniqCreators(marketItems);
+      statVolumeEl.textContent = formatVolume(marketItems);
+
+      // hero mini stat: random watchers
+      heroMiniStatEl.textContent = `${15 + Math.floor(Math.random() * 40)} collectors watching`;
+    }
+
+    function pickFeatured() {
+      const items = getFilteredSortedItems();
+      if (!items.length) return;
+      const featured = items[Math.floor(Math.random() * items.length)];
+
+      featureTitleEl.textContent = featured.name;
+      featureSubEl.textContent = "by " + featured.creator;
+      featureCatEl.textContent = "Category: " + featured.category;
+      featurePriceEl.textContent = "Current: " + formatPrice(featured.price) + " Ξ";
+      featureEndsEl.textContent = "Ends in: " + featured.endsIn;
+
+      heroBadgeEl.textContent = "spotlight · " + featured.rarity.toLowerCase();
+    }
+
+    // === Drawer ===
+    function openDrawer(itemId) {
+      const item = marketItems.find(n => n.id === itemId);
+      if (!item) return;
+      state.currentItemId = itemId;
+
+      drawerTitleEl.textContent = item.name;
+      drawerSubEl.textContent = "by " + item.creator + " · " + item.id;
+      drawerDescEl.textContent = item.blurb;
+      drawerPriceEl.textContent = formatPrice(item.price) + " Ξ";
+      drawerRarityEl.textContent = item.rarity;
+      drawerCategoryEl.textContent = item.category;
+      const likeCount = item.likes + (state.favourites.has(item.id) ? 1 : 0);
+      drawerLikesEl.textContent = likeCount;
+
+      bidSliderEl.value = 0;
+      bidValueEl.textContent = "0.00 Ξ";
+      bidConfirmTextEl.textContent = "This updates the activity feed only. Blockchain nowhere in sight.";
+
+      drawerBackdropEl.classList.add("visible");
+
+      addActivity(
+        `Opened detail drawer for ${item.name}`,
+        `creator: ${item.creator} · current: ${formatPrice(item.price)} Ξ`
+      );
+    }
+
+    function closeDrawer() {
+      drawerBackdropEl.classList.remove("visible");
+      state.currentItemId = null;
+    }
+
+    // === Events ===
+    // likes & click
+    gridEl.addEventListener("click", e => {
+      const likeEl = e.target.closest(".likes");
+      if (likeEl) {
+        e.stopPropagation();
+        const id = likeEl.dataset.id;
+        const item = marketItems.find(n => n.id === id);
+        if (!item) return;
+
+        const isFav = state.favourites.has(id);
+        if (isFav) {
+          state.favourites.delete(id);
+          addActivity(`Unhearted ${item.name}`, "removed from favourites");
+        } else {
+          state.favourites.add(id);
+          addActivity(`Hearted ${item.name}`, "added to favourites");
+        }
+
+        renderGrid();
+        if (state.currentItemId === id) {
+          const likeCount = item.likes + (state.favourites.has(id) ? 1 : 0);
+          drawerLikesEl.textContent = likeCount;
+        }
+        return;
+      }
+
+      const cardEl = e.target.closest(".card");
+      if (!cardEl) return;
+      const id = cardEl.dataset.id;
+      openDrawer(id);
+    });
+
+    // filters
+    filterPills.forEach(pill => {
+      pill.addEventListener("click", () => {
+        filterPills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+        state.category = pill.dataset.category;
+        renderGrid();
+        pickFeatured();
+        addActivity(`Filter set to ${state.category}`, "updated category filter");
       });
-    })();
+    });
 
-    // === Arcade · Comet Chase game ===
-    (function () {
-      const canvas = document.getElementById("arcade-canvas");
-      const ctx = canvas.getContext("2d");
+    // search
+    searchInputEl.addEventListener("input", () => {
+      state.search = searchInputEl.value;
+      renderGrid();
+    });
 
-      const scoreEl = document.getElementById("score-value");
-      const shieldFill = document.getElementById("shield-fill");
-      const diffLabel = document.getElementById("diff-label");
-      const overlay = document.getElementById("arcade-overlay");
-      const finalText = document.getElementById("arcade-final-text");
-      const restartBtn = document.getElementById("arcade-restart");
-      const sessionCounter = document.getElementById("session-counter");
+    // sort
+    sortSelectEl.addEventListener("change", () => {
+      state.sort = sortSelectEl.value;
+      renderGrid();
+      pickFeatured();
+      addActivity(`Sort mode: ${state.sort}`, "reordered marketplace");
+    });
 
-      let sessions = 1;
-      let width = 0;
-      let height = 0;
+    // CTA buttons
+    ctaFeaturedBtn.addEventListener("click", () => {
+      const items = getFilteredSortedItems();
+      if (!items.length) return;
+      const first = items[0];
+      openDrawer(first.id);
+    });
 
-      function resize() {
-        const rect = canvas.getBoundingClientRect();
-        width = rect.width;
-        height = rect.height;
-        canvas.width = width;
-        canvas.height = height;
-      }
-      window.addEventListener("resize", resize);
-      resize();
-
-      const keys = {};
-      const state = {
-        player: { x: width / 2, y: height * 0.7, vx: 0, vy: 0, r: 10 },
-        shards: [],
-        hazards: [],
-        score: 0,
-        shield: 100,
-        difficulty: 1,
-        over: false
-      };
-
-      document.addEventListener("keydown", e => {
-        const k = e.key.toLowerCase();
-        if (["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"].includes(k)) {
-          e.preventDefault();
-          keys[k] = true;
-        }
+    ctaRandomBtn.addEventListener("click", () => {
+      // small re-roll of trending scores
+      marketItems.forEach(n => {
+        n.trendingScore = Math.random();
       });
-      document.addEventListener("keyup", e => {
-        keys[e.key.toLowerCase()] = false;
-      });
+      renderGrid();
+      pickFeatured();
+      addActivity("Randomized marketplace metrics", "trending scores reshuffled");
+    });
 
-      function randomPos() {
-        return {
-          x: Math.random() * width,
-          y: Math.random() * height * 0.6
-        };
+    // drawer events
+    drawerCloseEl.addEventListener("click", closeDrawer);
+    drawerBackdropEl.addEventListener("click", e => {
+      if (e.target === drawerBackdropEl) {
+        closeDrawer();
       }
-
-      function spawnShard() {
-        if (state.shards.length > 12) return;
-        if (Math.random() > 0.07) return;
-        const p = randomPos();
-        state.shards.push({
-          x: p.x,
-          y: p.y,
-          r: 6 + Math.random() * 3,
-          wobble: Math.random() * Math.PI * 2,
-          wobbleSpeed: 0.05 + Math.random() * 0.04
-        });
-      }
-
-      function spawnHazard() {
-        const maxHazards = 4 + Math.floor(state.difficulty * 2);
-        if (state.hazards.length > maxHazards) return;
-        if (Math.random() > 0.04) return;
-        const fromTop = Math.random() < 0.5;
-        const x = Math.random() * width;
-        const y = fromTop ? -15 : height + 15;
-        const speed = 30 + Math.random() * (40 + state.difficulty * 20);
-        const angle = fromTop
-          ? Math.PI / 2 + (Math.random() - 0.5) * 0.6
-          : -Math.PI / 2 + (Math.random() - 0.5) * 0.6;
-        state.hazards.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          r: 10 + Math.random() * 6
-        });
-      }
-
-      function handleInput(dt) {
-        const p = state.player;
-        const accel = 220;
-        let ax = 0;
-        let ay = 0;
-
-        if (keys["arrowleft"] || keys["a"]) ax -= accel;
-        if (keys["arrowright"] || keys["d"]) ax += accel;
-        if (keys["arrowup"] || keys["w"]) ay -= accel;
-        if (keys["arrowdown"] || keys["s"]) ay += accel;
-
-        p.vx += ax * dt;
-        p.vy += ay * dt;
-
-        const drag = 0.9;
-        p.vx *= drag;
-        p.vy *= drag;
-
-        const maxSpeed = 260;
-        const speed = Math.hypot(p.vx, p.vy);
-        if (speed > maxSpeed) {
-          const s = maxSpeed / speed;
-          p.vx *= s;
-          p.vy *= s;
-        }
-
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-
-        const r = p.r + 4;
-        if (p.x < r) { p.x = r; p.vx *= -0.25; }
-        if (p.x > width - r) { p.x = width - r; p.vx *= -0.25; }
-        if (p.y < r) { p.y = r; p.vy *= -0.25; }
-        if (p.y > height - r) { p.y = height - r; p.vy *= -0.25; }
-      }
-
-      function updateObjects(dt) {
-        state.shards.forEach(s => {
-          s.wobble += s.wobbleSpeed;
-        });
-
-        state.hazards.forEach(h => {
-          h.x += (h.vx * dt);
-          h.y += (h.vy * dt);
-        });
-
-        for (let i = state.hazards.length - 1; i >= 0; i--) {
-          const h = state.hazards[i];
-          if (h.x < -40 || h.x > width + 40 || h.y < -40 || h.y > height + 40) {
-            state.hazards.splice(i, 1);
-          }
-        }
-
-        const p = state.player;
-        for (let i = state.shards.length - 1; i >= 0; i--) {
-          const s = state.shards[i];
-          const d = Math.hypot(p.x - s.x, p.y - s.y);
-          if (d < p.r + s.r + 2) {
-            state.shards.splice(i, 1);
-            state.score += 1;
-            state.shield = Math.min(100, state.shield + 8);
-          }
-        }
-
-        state.hazards.forEach(h => {
-          const d = Math.hypot(state.player.x - h.x, state.player.y - h.y);
-          if (d < state.player.r + h.r) {
-            state.shield -= dt * 40;
-          }
-        });
-
-        if (state.shield > 0) {
-          state.shield += dt * 3;
-          if (state.shield > 100) state.shield = 100;
-        }
-
-        state.difficulty = 1 + state.score / 15;
-        if (state.difficulty < 1) state.difficulty = 1;
-
-        if (state.shield <= 0 && !state.over) {
-          endGame();
-        }
-      }
-
-      function updateHUD() {
-        scoreEl.textContent = state.score;
-        const shieldRatio = Math.max(0, Math.min(1, state.shield / 100));
-        shieldFill.style.width = (shieldRatio * 100).toFixed(1) + "%";
-
-        const d = state.difficulty;
-        let label = "Drift";
-        if (d > 1.8 && d <= 2.6) label = "Flux";
-        else if (d > 2.6 && d <= 3.6) label = "Storm";
-        else if (d > 3.6) label = "Chaos";
-        diffLabel.textContent = label;
-      }
-
-      function drawBackground() {
-        const g = ctx.createLinearGradient(0, 0, 0, height);
-        g.addColorStop(0, "#020617");
-        g.addColorStop(0.4, "#020617");
-        g.addColorStop(1, "#000000");
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, width, height);
-
-        ctx.strokeStyle = "rgba(30,64,175,0.35)";
-        ctx.lineWidth = 0.6;
-        const step = 40;
-        ctx.globalAlpha = 0.5;
-        for (let x = 0; x <= width; x += step) {
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, height);
-          ctx.stroke();
-        }
-        for (let y = 0; y <= height; y += step) {
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(width, y);
-          ctx.stroke();
-        }
-        ctx.globalAlpha = 1;
-      }
-
-      function drawShards() {
-        state.shards.forEach(s => {
-          const bob = Math.sin(s.wobble) * 2;
-          const cx = s.x;
-          const cy = s.y + bob;
-
-          const g = ctx.createRadialGradient(cx - 3, cy - 3, 0, cx, cy, s.r + 6);
-          g.addColorStop(0, "#e0f2fe");
-          g.addColorStop(0.4, "#38bdf8");
-          g.addColorStop(1, "rgba(15,23,42,0)");
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(cx, cy, s.r + 4, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.fillStyle = "#0ea5e9";
-          ctx.beginPath();
-          ctx.moveTo(cx, cy - s.r);
-          ctx.lineTo(cx + s.r * 0.8, cy);
-          ctx.lineTo(cx, cy + s.r);
-          ctx.lineTo(cx - s.r * 0.8, cy);
-          ctx.closePath();
-          ctx.fill();
-
-          ctx.strokeStyle = "rgba(15,23,42,0.85)";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        });
-      }
-
-      function drawHazards() {
-        state.hazards.forEach(h => {
-          const trail = 18;
-          const dx = -h.vx / 60;
-          const dy = -h.vy / 60;
-          const tx = h.x + dx * trail;
-          const ty = h.y + dy * trail;
-
-          const g = ctx.createLinearGradient(tx, ty, h.x, h.y);
-          g.addColorStop(0, "rgba(248,113,113,0)");
-          g.addColorStop(1, "rgba(239,68,68,0.85)");
-
-          ctx.strokeStyle = g;
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.moveTo(tx, ty);
-          ctx.lineTo(h.x, h.y);
-          ctx.stroke();
-
-          const g2 = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, h.r + 8);
-          g2.addColorStop(0, "#fecaca");
-          g2.addColorStop(0.4, "#ef4444");
-          g2.addColorStop(1, "rgba(15,23,42,0)");
-          ctx.fillStyle = g2;
-          ctx.beginPath();
-          ctx.arc(h.x, h.y, h.r + 4, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.strokeStyle = "rgba(15,23,42,0.9)";
-          ctx.lineWidth = 1.2;
-          ctx.beginPath();
-          ctx.arc(h.x, h.y, h.r, 0, Math.PI * 2);
-          ctx.stroke();
-        });
-      }
-
-      function drawPlayer() {
-        const p = state.player;
-        ctx.save();
-        ctx.translate(p.x, p.y);
-
-        const angle = Math.atan2(p.vy, p.vx) || 0;
-        ctx.rotate(angle);
-
-        const r = p.r;
-        const gradient = ctx.createLinearGradient(-r, 0, r, 0);
-        gradient.addColorStop(0, "#22c55e");
-        gradient.addColorStop(1, "#0ea5e9");
-        ctx.fillStyle = gradient;
-        ctx.strokeStyle = "rgba(15,23,42,0.9)";
-        ctx.lineWidth = 1.2;
-
-        ctx.beginPath();
-        ctx.moveTo(r + 3, 0);
-        ctx.lineTo(-r, -r * 0.8);
-        ctx.lineTo(-r * 0.3, 0);
-        ctx.lineTo(-r, r * 0.8);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.restore();
-      }
-
-      let lastTime = null;
-
-      function loop(timestamp) {
-        if (!lastTime) lastTime = timestamp;
-        const dt = Math.min((timestamp - lastTime) / 1000, 0.035);
-        lastTime = timestamp;
-
-        if (!state.over) {
-          handleInput(dt);
-          spawnShard();
-          spawnHazard();
-          updateObjects(dt);
-        }
-        updateHUD();
-
-        drawBackground();
-        drawShards();
-        drawHazards();
-        drawPlayer();
-
-        requestAnimationFrame(loop);
-      }
-
-      function resetGame() {
-        state.player.x = width / 2;
-        state.player.y = height * 0.7;
-        state.player.vx = 0;
-        state.player.vy = 0;
-        state.shards.length = 0;
-        state.hazards.length = 0;
-        state.score = 0;
-        state.shield = 100;
-        state.difficulty = 1;
-        state.over = false;
-        overlay.classList.remove("visible");
-      }
-
-      function endGame() {
-        state.over = true;
-        const msg =
-          "You gathered " +
-          state.score +
-          " shard" +
-          (state.score === 1 ? "" : "s") +
-          " before the hull gave out.";
-        finalText.textContent = msg;
-        overlay.classList.add("visible");
-        sessions++;
-        sessionCounter.textContent = sessions;
-      }
-
-      restartBtn.addEventListener("click", () => {
-        resetGame();
-      });
-
-      resetGame();
-      requestAnimationFrame(loop);
-    })();
-
-    // === Field Lab · particle playground ===
-    (function () {
-      const canvas = document.getElementById("field-canvas");
-      const ctx = canvas.getContext("2d");
-      const modeButtons = Array.from(document.querySelectorAll(".mode-button"));
-      const fieldInfo = document.getElementById("field-info");
-      const particleCountEl = document.getElementById("particle-count");
-
-      let width = 0;
-      let height = 0;
-      const particles = [];
-      const PARTICLE_COUNT = 120;
-
-      const modes = {
-        attract: "Mode: Attract – move your cursor to pull the particles into a shimmering stream.",
-        repel: "Mode: Repel – drag your cursor to push particles away and carve out voids.",
-        orbit: "Mode: Orbit – leave the cursor in place and watch tiny galaxies swirl around it.",
-        drift: "Mode: Drift – hands off; let the particles wander on their own."
-      };
-      let mode = "attract";
-
-      const pointer = {
-        x: 0,
-        y: 0,
-        active: false
-      };
-
-      function resize() {
-        const rect = canvas.getBoundingClientRect();
-        width = rect.width;
-        height = rect.height;
-        canvas.width = width;
-        canvas.height = height;
-      }
-      window.addEventListener("resize", resize);
-      resize();
-
-      function makeParticle() {
-        const speed = 10 + Math.random() * 15;
-        const angle = Math.random() * Math.PI * 2;
-        return {
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          hue: 190 + Math.random() * 70,
-          alpha: 0.4 + Math.random() * 0.4
-        };
-      }
-
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push(makeParticle());
-      }
-      particleCountEl.textContent = particles.length;
-
-      canvas.addEventListener("pointermove", e => {
-        const rect = canvas.getBoundingClientRect();
-        pointer.x = e.clientX - rect.left;
-        pointer.y = e.clientY - rect.top;
-        pointer.active = true;
-      });
-      canvas.addEventListener("pointerleave", () => {
-        pointer.active = false;
-      });
-
-      modeButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          modeButtons.forEach(b => b.classList.toggle("active", b === btn));
-          mode = btn.dataset.mode;
-          fieldInfo.innerHTML = modes[mode].replace("Mode:", "Mode: <strong>") + "</strong>";
-        });
-      });
-
-      function updateParticles(dt) {
-        particles.forEach(p => {
-          if (mode !== "drift" && pointer.active) {
-            const dx = pointer.x - p.x;
-            const dy = pointer.y - p.y;
-            const dist = Math.hypot(dx, dy) + 0.0001;
-            const dirX = dx / dist;
-            const dirY = dy / dist;
-
-            if (mode === "attract") {
-              const force = Math.min(80 / dist, 60);
-              p.vx += dirX * force * dt;
-              p.vy += dirY * force * dt;
-            } else if (mode === "repel") {
-              const force = Math.min(120 / dist, 80);
-              p.vx -= dirX * force * dt;
-              p.vy -= dirY * force * dt;
-            } else if (mode === "orbit") {
-              const force = Math.min(90 / dist, 70);
-              const tangentX = -dirY;
-              const tangentY = dirX;
-              p.vx += tangentX * force * dt;
-              p.vy += tangentY * force * dt;
-            }
-          }
-
-          const drag = 0.9;
-          p.vx *= drag;
-          p.vy *= drag;
-
-          p.x += p.vx * dt;
-          p.y += p.vy * dt;
-
-          if (p.x < -20) p.x = width + 20;
-          if (p.x > width + 20) p.x = -20;
-          if (p.y < -20) p.y = height + 20;
-          if (p.y > height + 20) p.y = -20;
-        });
-      }
-
-      function drawParticles() {
-        ctx.clearRect(0, 0, width, height);
-        ctx.save();
-        ctx.globalCompositeOperation = "lighter";
-
-        particles.forEach(p => {
-          const tailLength = mode === "drift" ? 18 : 22;
-          const speed = Math.hypot(p.vx, p.vy) || 1;
-          const tx = p.x - (p.vx / speed) * tailLength;
-          const ty = p.y - (p.vy / speed) * tailLength;
-
-          const grad = ctx.createLinearGradient(tx, ty, p.x, p.y);
-          grad.addColorStop(0, "rgba(15,23,42,0)");
-          grad.addColorStop(1, `hsla(${p.hue}, 80%, 70%, ${p.alpha})`);
-
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.moveTo(tx, ty);
-          ctx.lineTo(p.x, p.y);
-          ctx.stroke();
-
-          ctx.fillStyle = `hsla(${p.hue}, 85%, 80%, ${p.alpha})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx.fill();
-        });
-
-        ctx.restore();
-      }
-
-      let lastTime = null;
-      function loop(time) {
-        if (!lastTime) lastTime = time;
-        const dt = Math.min((time - lastTime) / 1000, 0.035);
-        lastTime = time;
-
-        updateParticles(dt);
-        drawParticles();
-        requestAnimationFrame(loop);
-      }
-      requestAnimationFrame(loop);
-    })();
-
-    // === Lore Terminal ===
-    (function () {
-      const bodyEl = document.getElementById("terminal-body");
-      const choiceRow = document.getElementById("choice-row");
-
-      const scenes = {
-        intro: {
-          lines: [
-            "booting subdomain story engine...",
-            "detected: custom domain wired to GitHub Pages.",
-            "status: everything is wildly more dramatic than it needs to be."
-          ],
-          choices: [
-            { label: "continue boot sequence", target: "scan" }
-          ]
-        },
-        scan: {
-          lines: [
-            "running diagnostics on: testingdomconnect.crewr.co",
-            "• DNS: resolvable",
-            "• TLS: active",
-            "• purpose: unknown (and that's okay)."
-          ],
-          choices: [
-            { label: "declare it a secret space station", target: "station" },
-            { label: "treat it like a playground", target: "playground" }
-          ]
-        },
-        station: {
-          lines: [
-            "classification: orbital outpost.",
-            "role: listening post for strange packets and stranger ideas.",
-            "unofficial motto: \"no roadmap, only trajectories.\""
-          ],
-          choices: [
-            { label: "log a captain's entry", target: "captain" },
-            { label: "reclassify as playground anyway", target: "playground" }
-          ]
-        },
-        captain: {
-          lines: [
-            "captain's log · stardate: whenever you pushed the last commit.",
-            "we pointed a subdomain at an html file and the universe did not complain.",
-            "crew morale: unreasonably high for a project with zero stakeholders."
-          ],
-          choices: [
-            { label: "end log with a wink", target: "outro" }
-          ]
-        },
-        playground: {
-          lines: [
-            "classification: cosmic sandbox.",
-            "role: testing ground for tiny experiments that make you grin.",
-            "guiding principle: \"if it feels overbuilt, you're doing it right.\""
-          ],
-          choices: [
-            { label: "deploy more nonsense", target: "nonsense" },
-            { label: "pause and appreciate the view", target: "outro" }
-          ]
-        },
-        nonsense: {
-          lines: [
-            "todo:",
-            "  - add at least one more totally unnecessary visual effect.",
-            "  - give something an overly serious name.",
-            "  - remember this started from: \"what if I just connect this subdomain for fun?\""
-          ],
-          choices: [
-            { label: "ok but seriously this rules", target: "outro" }
-          ]
-        },
-        outro: {
-          lines: [
-            "session complete.",
-            "your subdomain now has lore, games, a particle lab, and a console.",
-            "recommendation: leave it exactly like this, or break it gloriously in your next commit."
-          ],
-          choices: [
-            { label: "run story again", target: "intro" }
-          ]
-        }
-      };
-
-      let currentScene = "intro";
-      let typing = false;
-
-      function clearTerminal() {
-        bodyEl.innerHTML = "";
-      }
-
-      function typeLines(lines, cb) {
-        typing = true;
-        let lineIndex = 0;
-        let charIndex = 0;
-        let currentLineEl = null;
-
-        function step() {
-          if (lineIndex >= lines.length) {
-            typing = false;
-            if (cb) cb();
-            return;
-          }
-
-          if (!currentLineEl) {
-            currentLineEl = document.createElement("div");
-            currentLineEl.className = "terminal-line";
-            bodyEl.appendChild(currentLineEl);
-          }
-
-          const line = lines[lineIndex];
-          currentLineEl.textContent = line.slice(0, charIndex);
-          charIndex++;
-
-          if (charIndex > line.length) {
-            currentLineEl = null;
-            charIndex = 0;
-            lineIndex++;
-          }
-
-          bodyEl.scrollTop = bodyEl.scrollHeight;
-          const delay = 12 + Math.random() * 20;
-          setTimeout(step, delay);
-        }
-        step();
-      }
-
-      function renderChoices(scene) {
-        choiceRow.innerHTML = "";
-        scene.choices.forEach(choice => {
-          const btn = document.createElement("button");
-          btn.className = "choice-button";
-          btn.textContent = choice.label;
-          btn.addEventListener("click", () => {
-            goToScene(choice.target);
-          });
-          choiceRow.appendChild(btn);
-        });
-      }
-
-      function goToScene(name) {
-        if (!scenes[name] || typing) return;
-        currentScene = name;
-        clearTerminal();
-        const scene = scenes[name];
-        typeLines(scene.lines, () => renderChoices(scene));
-      }
-
-      // initial render
-      goToScene("intro");
-    })();
+    });
+
+    bidSliderEl.addEventListener("input", () => {
+      const value = parseInt(bidSliderEl.value, 10) / 100;
+      bidValueEl.textContent = value.toFixed(2) + " Ξ";
+      bidConfirmTextEl.textContent = "Ready to log a pretend bid at " + value.toFixed(2) + " Ξ.";
+    });
+
+    bidButtonEl.addEventListener("click", () => {
+      const id = state.currentItemId;
+      if (!id) return;
+      const item = marketItems.find(n => n.id === id);
+      if (!item) return;
+      const value = parseInt(bidSliderEl.value, 10) / 100;
+      addActivity(
+        `Placed fake bid on ${item.name}`,
+        `amount: ${value.toFixed(2)} Ξ · creator: ${item.creator}`
+      );
+      bidConfirmTextEl.textContent = "Fake bid logged in the activity feed. Nothing went on-chain (because there is no chain).";
+    });
+
+    // init
+    renderGrid();
+    pickFeatured();
+    addActivity("Marketplace booted", "generated " + marketItems.length + " items in memory");
   </script>
 </body>
 </html>
