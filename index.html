@@ -2,19 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Garafee Head · Pixel Art</title>
+  <title>Majestic Garafee · Pixel Portrait</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root {
-      --face: #fdd49b;
-      --face-shadow: #f0b25c;
-      --border: #9b5a1a;
-      --horn: #d8bf7a;
-      --inner-ear: #f9c0a8;
-      --nostril: #7b341e;
-      --eye: #ffffff;
-      --background: #ffffff;
+      --page-bg: #ffffff;
+
+      --grid-bg: #f5f5f5;
+      --grid-border: #e5e7eb;
+
+      --g-outline: #8a4b21;
+      --g-main: #fbbf77;
+      --g-shadow: #e59a4a;
+      --g-spot: #d47a2f;
+      --g-horn: #d9c38f;
+      --g-inner-ear: #f5b3a3;
+      --g-muzzle: #fdd9a0;
+      --g-nostril: #7b3b1c;
+      --g-eye-white: #ffffff;
+      --g-eye-pupil: #111827;
     }
 
     * {
@@ -25,9 +32,10 @@
 
     html, body {
       height: 100%;
-      background: var(--background);
+      background: var(--page-bg);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
+      color: #111827;
     }
 
     body {
@@ -41,13 +49,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.7rem;
+      gap: 0.75rem;
+      max-width: 900px;
+      width: 100%;
     }
 
     .title {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.25em;
       color: #4b5563;
     }
 
@@ -55,59 +65,50 @@
       font-size: 0.8rem;
       color: #6b7280;
       text-align: center;
-      max-width: 24rem;
+      max-width: 26rem;
+    }
+
+    .pixel-card {
+      padding: 1rem;
+      border-radius: 18px;
+      background: var(--grid-bg);
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.18),
+        0 0 0 1px var(--grid-border);
     }
 
     .pixel-art {
-      position: relative;
       display: grid;
-      grid-template-columns: repeat(24, 16px);
-      grid-template-rows: repeat(24, 16px);
+      /* JS will overwrite these to match the map size */
+      grid-template-columns: repeat(32, 14px);
+      grid-template-rows: repeat(24, 14px);
       gap: 1px;
-      padding: 12px;
-      border-radius: 16px;
-      background: #f3f4f6;
+      background: #e5e7eb;
+      padding: 10px;
+      border-radius: 12px;
       box-shadow:
-        0 22px 50px rgba(0, 0, 0, 0.18),
-        0 0 0 1px rgba(209, 213, 219, 0.9);
+        inset 0 0 0 1px rgba(229, 231, 235, 0.9),
+        0 18px 40px rgba(15, 23, 42, 0.12);
     }
 
     .px {
-      width: 16px;
-      height: 16px;
-      background: var(--background);
+      width: 14px;
+      height: 14px;
+      background: #ffffff; /* white background pixels */
     }
 
-    /* Colors for each "type" of pixel */
-    .border {
-      background: var(--border);
-    }
+    /* Color classes for each pixel type */
+    .outline { background: var(--g-outline); }
+    .fur-main { background: var(--g-main); }
+    .fur-shadow { background: var(--g-shadow); }
+    .spot { background: var(--g-spot); }
+    .horn { background: var(--g-horn); }
+    .inner-ear { background: var(--g-inner-ear); }
+    .muzzle { background: var(--g-muzzle); }
+    .nostril { background: var(--g-nostril); }
+    .eye-white { background: var(--g-eye-white); }
+    .eye-pupil { background: var(--g-eye-pupil); }
 
-    .face {
-      background: var(--face);
-    }
-
-    .shadow {
-      background: var(--face-shadow);
-    }
-
-    .horn {
-      background: var(--horn);
-    }
-
-    .inner-ear {
-      background: var(--inner-ear);
-    }
-
-    .nostril {
-      background: var(--nostril);
-    }
-
-    .eye {
-      background: var(--eye);
-    }
-
-    /* Slight crisp look on higher DPI */
     @media (min-width: 768px) {
       .pixel-art {
         image-rendering: pixelated;
@@ -117,63 +118,80 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="title">garafee head · pixel art</div>
+    <div class="title">majestic garafee · pixel portrait</div>
     <div class="subtitle">
-      24 × 24 grid, colored pixel by pixel. No images, just HTML + CSS.
+      32 × 24 pixel grid, rendered pixel by pixel with HTML, CSS, and a tiny bit of JS.
+      No image files — just a giraffe head built from colored squares on a white background.
     </div>
 
-    <div class="pixel-art">
-      <!-- 24 x 24 pixels: each div is one pixel -->
-      <!-- Row 0 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 1 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px horn"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px horn"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 2 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 3 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px inner-ear"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px inner-ear"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 4 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px inner-ear"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px inner-ear"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 5 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 6 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 7 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 8 (eyes row) -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px eye"></div><div class="px eye"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 9 (eyes second line) -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px eye"></div><div class="px eye"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 10 (top of snout) -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 11 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 12 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 13 (nostrils) -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px nostril"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px nostril"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 14 (start neck) -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Rows 15–23 (neck) -->
-      <!-- Row 15 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 16 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 17 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 18 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 19 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 20 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 21 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 22 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
-      <!-- Row 23 -->
-      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+    <div class="pixel-card">
+      <div id="garafee-canvas" class="pixel-art" aria-label="Pixel art of a giraffe head"></div>
     </div>
   </div>
+
+  <script>
+    // 32 columns wide, 24 rows tall
+    const PIXEL_MAP = [
+      "................................",
+      "..............h..h..............",
+      ".............hh..hh.............",
+      "...........bbbbbbbbbb...........",
+      ".........ebbbbbbbbbbbbe.........",
+      "..........bYYYYYYYYYYb..........",
+      ".........bYYYYYYYYYYYYb.........",
+      ".........bYYYYYYYYYYYYb.........",
+      ".........bYYYEYYYYEYYYb.........",
+      ".........bYYYpYYYYpYYYb.........",
+      ".........bYYYYYYYSSSSYb.........",
+      ".........bYYmmmmmmmYYYb.........",
+      ".........bYYmmnmmnmYYYb.........",
+      ".........bYYmmmmmmmYYYb.........",
+      "..........bYYYYYYYYYYb..........",
+      "...........bYYYYYYYYb...........",
+      "...........bYYdYYdYYb...........",
+      "...........bYYYYYYYYb...........",
+      "...........bYdYYYYdYb...........",
+      "...........bYYYYYYYYb...........",
+      "...........bYYYdYYYYb...........",
+      "...........bYYYYYdYYb...........",
+      "...........bYdYYYYdYb...........",
+      "...........bYYYYYYYYb..........."
+    ];
+
+    // Map characters in the PIXEL_MAP to CSS classes
+    const COLOR_MAP = {
+      ".": null,          // background
+      "b": "outline",     // outline of head & neck
+      "Y": "fur-main",   // main fur
+      "S": "fur-shadow", // shadowed fur on right side
+      "d": "spot",       // darker spots on neck
+      "h": "horn",       // horns
+      "e": "inner-ear",  // inner ears
+      "m": "muzzle",     // muzzle area
+      "n": "nostril",    // nostrils
+      "E": "eye-white",  // eye whites
+      "p": "eye-pupil"   // pupils
+    };
+
+    const canvas = document.getElementById("garafee-canvas");
+    const rows = PIXEL_MAP.length;
+    const cols = PIXEL_MAP[0].length;
+
+    // Make sure the grid matches the pixel map size
+    canvas.style.gridTemplateColumns = `repeat(${cols}, 14px)`;
+    canvas.style.gridTemplateRows = `repeat(${rows}, 14px)`;
+
+    PIXEL_MAP.forEach(row => {
+      row.split("").forEach(char => {
+        const px = document.createElement("div");
+        px.classList.add("px");
+        const colorClass = COLOR_MAP[char];
+        if (colorClass) {
+          px.classList.add(colorClass);
+        }
+        canvas.appendChild(px);
+      });
+    });
+  </script>
 </body>
 </html>
