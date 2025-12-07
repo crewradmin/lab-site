@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>testingdomconnect.crewr.co – Useless but Pretty</title>
+  <title>Desert Playground – Dune Dash</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root {
-      --bg-1: #0f172a;
-      --bg-2: #020617;
-      --accent-1: #22c55e;
-      --accent-2: #0ea5e9;
-      --accent-3: #e11d48;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --glass: rgba(15, 23, 42, 0.65);
-      --blur-radius: 24px;
-      --border-radius-lg: 24px;
-      --border-radius-md: 16px;
-      --border-radius-pill: 999px;
-      --shadow-soft: 0 18px 60px rgba(15, 23, 42, 0.9);
-      --shadow-soft-2: 0 0 45px rgba(34, 197, 94, 0.35);
+      --sand-light: #fed7aa;
+      --sand-mid: #fdba74;
+      --sand-deep: #9a3412;
+      --sky-top-day: #f97316;
+      --sky-bottom-day: #1f2937;
+      --sky-top-night: #0f172a;
+      --sky-bottom-night: #020617;
+      --text-main: #fefce8;
+      --text-muted: #e5e7eb;
+      --glass: rgba(15, 23, 42, 0.76);
+      --border-sand: rgba(252, 211, 77, 0.7);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
     }
 
     * {
@@ -36,7 +36,6 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
       color: var(--text-main);
-      background: radial-gradient(circle at top, #1e293b 0, #020617 45%, #000 100%);
     }
 
     body {
@@ -44,132 +43,201 @@
       display: flex;
       align-items: stretch;
       justify-content: center;
-      padding: clamp(1.5rem, 3vw, 3rem);
+      padding: clamp(1.6rem, 3vw, 3rem);
+      background: radial-gradient(
+          circle at 10% 0%,
+          rgba(254, 243, 199, 0.4),
+          transparent 55%
+        ),
+        linear-gradient(
+          to bottom,
+          var(--sky-top-day) 0%,
+          var(--sky-bottom-day) 50%,
+          #000 100%
+        );
+      transition: background 0.6s ease;
     }
 
-    /* Animated gradient fog blobs in the back */
+    body.is-night {
+      background: radial-gradient(
+          circle at 10% 0%,
+          rgba(254, 249, 195, 0.25),
+          transparent 60%
+        ),
+        linear-gradient(
+          to bottom,
+          var(--sky-top-night) 0%,
+          var(--sky-bottom-night) 55%,
+          #020617 100%
+        );
+    }
 
-    .blob {
+    /* Distant sun & dunes */
+
+    .sun {
       position: fixed;
+      top: 8vh;
+      left: 50%;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.55;
+      transform: translateX(-50%);
+      background: radial-gradient(
+        circle at 30% 30%,
+        #fef9c3,
+        #facc15 50%,
+        #f97316 76%,
+        #c2410c 95%
+      );
+      box-shadow:
+        0 0 60px rgba(253, 224, 71, 0.9),
+        0 0 120px rgba(248, 250, 252, 0.35);
       pointer-events: none;
-      z-index: -3;
-      mix-blend-mode: screen;
+      z-index: -1;
+      transition: transform 0.7s ease, box-shadow 0.7s ease, background 0.7s ease;
     }
 
-    .blob.blob-1 {
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle at 30% 30%, #22c55e, transparent 60%);
-      top: -80px;
-      left: -60px;
-      animation: float-1 22s infinite alternate ease-in-out;
+    body.is-night .sun {
+      transform: translateX(-50%) translateY(-12px) scale(0.85);
+      background: radial-gradient(
+        circle at 30% 30%,
+        #f9fafb,
+        #bfdbfe 50%,
+        #60a5fa 76%,
+        #1e3a8a 95%
+      );
+      box-shadow:
+        0 0 60px rgba(96, 165, 250, 0.9),
+        0 0 140px rgba(191, 219, 254, 0.6);
     }
 
-    .blob.blob-2 {
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle at 70% 20%, #0ea5e9, transparent 60%);
-      top: -120px;
-      right: -90px;
-      animation: float-2 30s infinite alternate ease-in-out;
+    .dune {
+      position: fixed;
+      left: -10%;
+      right: -10%;
+      bottom: -4vh;
+      height: 40vh;
+      border-radius: 50% 50% 0 0;
+      background: radial-gradient(
+        ellipse at top,
+        var(--sand-light) 0%,
+        var(--sand-mid) 38%,
+        var(--sand-deep) 80%
+      );
+      z-index: -1;
+      opacity: 0.95;
     }
 
-    .blob.blob-3 {
-      width: 460px;
-      height: 460px;
-      background: radial-gradient(circle at 20% 70%, #e11d48, transparent 65%);
-      bottom: -140px;
-      left: 10%;
-      animation: float-3 26s infinite alternate ease-in-out;
+    .dune-2 {
+      bottom: -10vh;
+      height: 42vh;
+      background: radial-gradient(
+        ellipse at top right,
+        rgba(254, 215, 170, 0.9) 0%,
+        #ea580c 45%,
+        #7c2d12 80%
+      );
+      opacity: 0.85;
     }
 
-    @keyframes float-1 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      100% { transform: translate3d(80px, 120px, 0) scale(1.15); }
+    .dune-3 {
+      bottom: -18vh;
+      height: 46vh;
+      background: radial-gradient(
+        ellipse at top left,
+        rgba(254, 215, 170, 0.8) 0%,
+        #c2410c 40%,
+        #7c2d12 75%
+      );
+      opacity: 0.75;
     }
 
-    @keyframes float-2 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      100% { transform: translate3d(-80px, 150px, 0) scale(1.1); }
-    }
+    /* Dust / stars canvas */
 
-    @keyframes float-3 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      100% { transform: translate3d(60px, -80px, 0) scale(1.2); }
-    }
-
-    /* Canvas particle layer */
-
-    #particle-canvas {
+    #dust-canvas {
       position: fixed;
       inset: 0;
       z-index: -2;
+      pointer-events: none;
     }
 
-    /* Main shell */
+    /* Shell layout */
 
     .shell {
       position: relative;
       width: 100%;
       max-width: 1120px;
-      border-radius: var(--border-radius-lg);
-      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.08), transparent 55%),
-                  radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.92));
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius-lg);
+      background: radial-gradient(
+          circle at top left,
+          rgba(254, 243, 199, 0.12),
+          transparent 55%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(15, 23, 42, 0.6),
+          rgba(15, 23, 42, 0.96)
+        );
+      border: 1px solid rgba(248, 250, 252, 0.18);
+      box-shadow:
+        0 18px 60px rgba(15, 23, 42, 0.9),
+        0 0 0 1px rgba(15, 23, 42, 0.8);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.4rem;
       padding: clamp(1.4rem, 3vw, 2rem);
-      backdrop-filter: blur(var(--blur-radius));
-    }
-
-    .shell::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top center, rgba(148, 163, 184, 0.16), transparent 60%);
-      pointer-events: none;
-      opacity: 0.9;
-      mix-blend-mode: soft-light;
+      backdrop-filter: blur(26px);
     }
 
     header {
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1.5rem;
-      z-index: 1;
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 820px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 0.85rem;
     }
 
-    .brand-avatar {
-      width: 40px;
-      height: 40px;
+    .brand-logo {
+      width: 42px;
+      height: 42px;
       border-radius: 18px;
-      background: conic-gradient(from 180deg at 50% 50%, #22c55e, #0ea5e9, #e11d48, #22c55e);
-      position: relative;
+      background: conic-gradient(
+        from 210deg,
+        #f97316,
+        #facc15,
+        #22c55e,
+        #0ea5e9,
+        #f97316
+      );
       padding: 2px;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.7),
-                  0 0 45px rgba(34, 197, 94, 0.55);
-      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.7),
+        0 0 40px rgba(248, 250, 252, 0.4);
     }
 
-    .brand-avatar-inner {
+    .brand-logo-inner {
       width: 100%;
       height: 100%;
       border-radius: 16px;
-      background: radial-gradient(circle at 20% 0%, #0f172a, #020617 70%);
+      background: radial-gradient(
+        circle at 40% 0,
+        #f97316,
+        #7c2d12 60%,
+        #020617 100%
+      );
       display: flex;
       align-items: center;
       justify-content: center;
@@ -179,28 +247,31 @@
     .brand-text {
       display: flex;
       flex-direction: column;
-      gap: 0.1rem;
+      gap: 0.15rem;
     }
 
     .brand-title {
       font-weight: 600;
-      letter-spacing: 0.04em;
-      font-size: 0.95rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      font-size: 0.9rem;
       display: inline-flex;
+      gap: 0.55rem;
       align-items: center;
-      gap: 0.4rem;
     }
 
-    .brand-title span.badge {
+    .brand-badge {
       font-size: 0.62rem;
       text-transform: uppercase;
-      border-radius: var(--border-radius-pill);
-      padding: 0.18rem 0.55rem;
-      border: 1px solid rgba(94, 234, 212, 0.7);
-      color: #a5f3fc;
-      background: radial-gradient(circle at 0 0, rgba(34, 211, 238, 0.18), transparent 60%);
-      letter-spacing: 0.12em;
+      border-radius: var(--radius-pill);
+      padding: 0.16rem 0.55rem;
+      border: 1px solid var(--border-sand);
+      background: radial-gradient(
+        circle at 0 0,
+        rgba(250, 204, 21, 0.18),
+        transparent 60%
+      );
+      color: #fef9c3;
     }
 
     .brand-subtitle {
@@ -210,23 +281,21 @@
 
     nav {
       display: flex;
-      gap: 0.75rem;
-      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
     }
 
     .chip {
-      padding: 0.25rem 0.8rem;
+      padding: 0.35rem 0.9rem;
       font-size: 0.75rem;
-      border-radius: var(--border-radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: var(--text-muted);
-      background: rgba(15, 23, 42, 0.8);
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(249, 250, 251, 0.16);
+      background: rgba(15, 23, 42, 0.86);
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      backdrop-filter: blur(14px);
-      cursor: default;
-      user-select: none;
+      gap: 0.45rem;
+      color: var(--text-muted);
+      backdrop-filter: blur(10px);
     }
 
     .chip .dot {
@@ -234,57 +303,40 @@
       height: 8px;
       border-radius: 999px;
       background: radial-gradient(circle, #22c55e, #166534);
-      box-shadow: 0 0 12px rgba(22, 163, 74, 0.8);
+      box-shadow: 0 0 10px rgba(22, 163, 74, 0.9);
     }
 
-    .chip.pink {
-      border-color: rgba(244, 114, 182, 0.7);
-      color: #f9a8d4;
-    }
-
-    .chip.blue {
-      border-color: rgba(56, 189, 248, 0.7);
-      color: #7dd3fc;
+    .chip-gold {
+      border-color: rgba(250, 204, 21, 0.6);
+      color: #fef3c7;
     }
 
     main {
-      position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.25fr);
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.25fr);
       gap: clamp(1.4rem, 3vw, 2rem);
-      z-index: 1;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 880px) {
       main {
         grid-template-columns: minmax(0, 1fr);
-      }
-
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      nav {
-        align-self: flex-start;
-        flex-wrap: wrap;
       }
     }
 
     .hero {
       display: flex;
       flex-direction: column;
-      gap: 1.6rem;
+      gap: 1.4rem;
     }
 
     .hero-pre {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: #a5f3fc;
+      color: #fee2b3;
     }
 
     .hero-pre::before {
@@ -292,23 +344,29 @@
       width: 26px;
       height: 1px;
       border-radius: 999px;
-      background: linear-gradient(to right, transparent, #22c55e, #0ea5e9);
-      opacity: 0.7;
+      background: linear-gradient(to right, transparent, #facc15, #fb923c);
     }
 
     .hero-title {
-      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
       line-height: 1.08;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
       font-weight: 700;
     }
 
-    .hero-title span.highlight {
-      background: linear-gradient(120deg, #22c55e, #0ea5e9, #e11d48);
+    .hero-title span {
+      background: linear-gradient(
+        120deg,
+        #fed7aa,
+        #facc15,
+        #22c55e,
+        #0ea5e9,
+        #f97316
+      );
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 0 32px rgba(56, 189, 248, 0.6);
+      text-shadow: 0 0 36px rgba(251, 191, 36, 0.6);
     }
 
     .hero-subtitle {
@@ -318,7 +376,7 @@
     }
 
     .hero-subtitle strong {
-      color: #e5e7eb;
+      color: #fefce8;
       font-weight: 500;
     }
 
@@ -330,378 +388,327 @@
 
     .button {
       appearance: none;
-      border: none;
+      border: 1px solid transparent;
       outline: none;
       cursor: pointer;
-      border-radius: var(--border-radius-pill);
+      border-radius: var(--radius-pill);
       font-size: 0.9rem;
-      padding: 0.6rem 1.4rem;
+      padding: 0.6rem 1.35rem;
       font-weight: 500;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
-                  border-color 0.18s ease, color 0.18s ease;
-      letter-spacing: 0.04em;
+      gap: 0.45rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease,
+        background 0.16s ease,
+        border-color 0.16s ease,
+        color 0.16s ease;
     }
 
     .button-primary {
-      background: linear-gradient(130deg, #22c55e, #0ea5e9);
-      color: #0f172a;
+      background: linear-gradient(130deg, #facc15, #fb923c);
+      color: #1e293b;
+      border-color: rgba(248, 250, 252, 0.8);
       box-shadow:
-        0 14px 40px rgba(34, 197, 94, 0.45),
-        0 0 22px rgba(56, 189, 248, 0.6);
-      border: 1px solid rgba(34, 197, 94, 0.5);
-    }
-
-    .button-primary span.icon {
-      font-size: 1.1rem;
-      transform-origin: center;
+        0 14px 40px rgba(248, 250, 252, 0.2),
+        0 0 30px rgba(250, 204, 21, 0.7);
     }
 
     .button-primary:hover {
       transform: translateY(-2px) scale(1.02);
       box-shadow:
-        0 22px 55px rgba(22, 163, 74, 0.7),
-        0 0 35px rgba(56, 189, 248, 0.7);
+        0 20px 52px rgba(248, 250, 252, 0.3),
+        0 0 40px rgba(249, 115, 22, 0.9);
     }
 
-    .button-primary:hover span.icon {
-      animation: wobble 0.8s ease-in-out infinite;
+    .button-outline {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      border-color: rgba(248, 250, 252, 0.2);
+      box-shadow: 0 10px 32px rgba(15, 23, 42, 0.9);
     }
 
-    .button-ghost {
-      background: rgba(15, 23, 42, 0.8);
-      color: #e5e7eb;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      box-shadow: 0 12px 38px rgba(15, 23, 42, 0.8);
-    }
-
-    .button-ghost:hover {
-      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.2), rgba(15, 23, 42, 0.98));
+    .button-outline:hover {
       transform: translateY(-2px);
-      border-color: rgba(56, 189, 248, 0.8);
-      box-shadow: 0 18px 55px rgba(15, 23, 42, 0.95), var(--shadow-soft-2);
+      border-color: rgba(250, 204, 21, 0.8);
+      box-shadow:
+        0 18px 46px rgba(15, 23, 42, 0.96),
+        0 0 28px rgba(250, 204, 21, 0.6);
     }
 
-    @keyframes wobble {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(2px); }
-      50% { transform: translateX(-3px); }
-      75% { transform: translateX(1px); }
+    .button.small {
+      padding: 0.45rem 1.1rem;
+      font-size: 0.8rem;
     }
 
     .hero-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 0.5rem;
+      gap: 0.9rem;
       font-size: 0.76rem;
       color: var(--text-muted);
     }
 
     .hero-meta-item {
       display: inline-flex;
+      gap: 0.4rem;
       align-items: center;
-      gap: 0.5rem;
     }
 
     .hero-meta-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #22c55e, #0ea5e9);
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.9);
+      background: radial-gradient(circle, #facc15, #f97316);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.9);
     }
 
-    /* Right column: fun chaos board */
+    /* Right column – interactive playground */
 
-    .board {
+    .playground {
       display: grid;
-      grid-template-rows: auto auto;
-      grid-template-columns: 1.3fr 1fr;
+      grid-template-rows: minmax(260px, auto) auto;
       gap: 0.9rem;
     }
 
-    @media (max-width: 900px) {
-      .board {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
     @media (max-width: 700px) {
-      .board {
-        grid-template-columns: 1fr;
-        grid-auto-rows: auto;
+      .playground {
+        grid-template-rows: minmax(260px, auto) auto;
       }
     }
 
     .card {
       position: relative;
-      border-radius: var(--border-radius-md);
+      border-radius: var(--radius-md);
       background: var(--glass);
-      border: 1px solid rgba(148, 163, 184, 0.3);
+      border: 1px solid rgba(148, 163, 184, 0.4);
       padding: 0.9rem 1rem;
-      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.85);
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.9);
       overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 10% 0%, rgba(148, 163, 184, 0.35), transparent 60%);
-      opacity: 0.25;
-      pointer-events: none;
     }
 
     .card-title {
       font-size: 0.8rem;
-      text-transform: uppercase;
       letter-spacing: 0.16em;
-      color: #9ca3af;
-      margin-bottom: 0.55rem;
-    }
-
-    .card-main {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-big-number {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.4rem;
-      background: linear-gradient(120deg, #22c55e, #0ea5e9, #e11d48);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 30px rgba(56, 189, 248, 0.7);
+      text-transform: uppercase;
+      color: #facc15;
+      margin-bottom: 0.5rem;
     }
 
     .card-caption {
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
+      margin-bottom: 0.55rem;
+    }
+
+    .game-card {
+      padding-bottom: 1.1rem;
+    }
+
+    #desert-game {
+      width: 100%;
+      height: 240px;
+      border-radius: 14px;
+      display: block;
+      background: radial-gradient(
+        circle at 50% 0%,
+        rgba(253, 224, 171, 0.7),
+        #7c2d12 70%
+      );
+      border: 1px solid rgba(254, 202, 202, 0.08);
+      box-shadow:
+        inset 0 0 0 1px rgba(248, 250, 252, 0.04),
+        0 12px 28px rgba(15, 23, 42, 0.9);
+    }
+
+    .game-hud {
+      margin-top: 0.6rem;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+    }
+
+    .hud-pill {
+      padding: 0.32rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(248, 250, 252, 0.18);
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hud-pill.stretch {
+      flex: 1;
+      min-width: 140px;
+      justify-content: space-between;
+    }
+
+    .hud-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.65rem;
+      color: #e5e7eb;
+    }
+
+    .hud-value {
+      font-weight: 600;
+    }
+
+    .heat-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+      border: 1px solid rgba(248, 250, 252, 0.18);
+      margin-left: 0.3rem;
+    }
+
+    .heat-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #facc15, #ea580c, #b91c1c);
+      box-shadow: 0 0 12px rgba(248, 113, 113, 0.7);
+      transition: width 0.18s ease-out;
+    }
+
+    .game-hint {
+      margin-top: 0.5rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .game-hint kbd {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.7rem;
+      padding: 0.08rem 0.24rem;
+      border-radius: 4px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .game-status {
+      margin-top: 0.25rem;
+      font-size: 0.74rem;
+      color: #fee2b3;
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0.5rem;
+      border-radius: 14px;
+      background: radial-gradient(
+          circle at 10% 0%,
+          rgba(254, 243, 199, 0.4),
+          transparent 55%
+        ),
+        rgba(15, 23, 42, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .game-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .game-overlay-inner {
+      text-align: center;
+      max-width: 280px;
+      padding: 1.2rem 1rem;
+    }
+
+    .game-overlay-inner h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .game-overlay-inner p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .card-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
     }
 
     .card-tag-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
-      margin-top: 0.65rem;
     }
 
     .tag {
       font-size: 0.7rem;
-      padding: 0.22rem 0.6rem;
-      border-radius: var(--border-radius-pill);
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(248, 250, 252, 0.18);
       background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.85);
-      color: #9ca3af;
+      color: var(--text-muted);
     }
 
-    .tag.green {
-      border-color: rgba(34, 197, 94, 0.7);
-      color: #bbf7d0;
+    .tag.sunset {
+      border-color: rgba(248, 153, 84, 0.8);
+      color: #fed7aa;
     }
-    .tag.blue {
-      border-color: rgba(56, 189, 248, 0.7);
+    .tag.midnight {
+      border-color: rgba(59, 130, 246, 0.8);
       color: #bfdbfe;
     }
-    .tag.pink {
-      border-color: rgba(244, 114, 182, 0.7);
-      color: #f9a8d4;
+    .tag.sand {
+      border-color: rgba(253, 224, 171, 0.8);
+      color: #fef3c7;
     }
-
-    .sparkles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.75;
-    }
-
-    .sparkles span {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: #e5e7eb;
-      box-shadow: 0 0 10px rgba(248, 250, 252, 0.9);
-      animation: twinkle 2.6s ease-in-out infinite;
-    }
-
-    .sparkles span:nth-child(1) { top: 12%; left: 12%; animation-delay: 0.1s; }
-    .sparkles span:nth-child(2) { top: 18%; right: 10%; animation-delay: 0.4s; }
-    .sparkles span:nth-child(3) { bottom: 22%; left: 22%; animation-delay: 1s; }
-    .sparkles span:nth-child(4) { bottom: 12%; right: 18%; animation-delay: 1.7s; }
-
-    @keyframes twinkle {
-      0%, 100% { transform: scale(0.4); opacity: 0.2; }
-      50% { transform: scale(1.2); opacity: 1; }
-    }
-
-    /* tiny scene card */
-
-    .tiny-scene {
-      display: flex;
-      gap: 0.7rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tiny-scene-planet {
-      width: 60px;
-      height: 60px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 25% 20%, #f4f4f5, #22c55e 40%, #0ea5e9 70%, #020617 100%);
-      position: relative;
-      box-shadow:
-        0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 18px 35px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(56, 189, 248, 0.7);
-      overflow: hidden;
-    }
-
-    .tiny-orbit {
-      position: absolute;
-      inset: 10%;
-      border-radius: inherit;
-      border: 1px dashed rgba(15, 23, 42, 0.6);
-    }
-
-    .tiny-orb {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      top: 6px;
-      right: 16px;
-      background: radial-gradient(circle at 30% 30%, #e5e7eb, #22c55e);
-      box-shadow: 0 0 18px rgba(34, 197, 94, 0.9);
-      transform-origin: -14px 24px;
-      animation: orbit 7s linear infinite;
-    }
-
-    @keyframes orbit {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .tiny-scene-text {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .tiny-scene-text strong {
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .typewriter {
-      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono",
-        "Courier New", monospace;
-      font-size: 0.76rem;
-      padding: 0.6rem 0.7rem;
-      border-radius: 10px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      margin-top: 0.5rem;
-      position: relative;
-      overflow: hidden;
-      color: #e5e7eb;
-    }
-
-    .typewriter::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, rgba(148, 163, 184, 0.15), transparent);
-      opacity: 0.7;
-      mix-blend-mode: soft-light;
-      pointer-events: none;
-    }
-
-    .typewriter span.cursor {
-      display: inline-block;
-      width: 7px;
-      background: #e5e7eb;
-      margin-left: 1px;
-      animation: blink 1s step-start infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      50.01%, 100% { opacity: 0; }
-    }
-
-    /* Lower stripe */
 
     .stripe {
-      position: relative;
-      z-index: 1;
+      margin-top: 0.2rem;
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      padding-top: 0.35rem;
+      font-size: 0.72rem;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      padding-top: 0.4rem;
-      border-top: 1px solid rgba(31, 41, 55, 0.9);
-      font-size: 0.74rem;
+      gap: 0.6rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
     }
 
-    .stripe-marquee {
-      position: relative;
-      overflow: hidden;
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .stripe-marquee-track {
+    .stripe-left {
       display: inline-flex;
+      gap: 0.35rem;
       align-items: center;
-      gap: 1.2rem;
-      white-space: nowrap;
-      animation: marquee 26s linear infinite;
-      opacity: 0.82;
     }
 
-    .pill {
-      border-radius: var(--border-radius-pill);
-      padding: 0.22rem 0.75rem;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: rgba(15, 23, 42, 0.96);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .pill-emoji {
-      font-size: 0.92rem;
+    .stripe-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #4ade80, #16a34a);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
     }
 
     .stripe-right {
-      display: flex;
-      gap: 0.6rem;
-      align-items: center;
-      flex-wrap: wrap;
+      opacity: 0.85;
     }
 
-    .tiny-status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: radial-gradient(circle, #22c55e, #166534);
-      box-shadow: 0 0 10px rgba(22, 163, 74, 0.9);
+    @media (max-width: 640px) {
+      body {
+        padding: 1.1rem;
+      }
     }
-
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    /* Scrollbar subtle */
 
     ::-webkit-scrollbar {
       width: 8px;
@@ -710,36 +717,32 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(30, 64, 175, 0.5);
+      background: rgba(30, 64, 175, 0.55);
       border-radius: 999px;
     }
-
   </style>
 </head>
 <body>
-  <!-- fuzzy gradient blobs -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
+  <div class="sun"></div>
+  <div class="dune dune-1"></div>
+  <div class="dune dune-2"></div>
+  <div class="dune dune-3"></div>
 
-  <!-- particle canvas (JS animates it) -->
-  <canvas id="particle-canvas"></canvas>
+  <canvas id="dust-canvas"></canvas>
 
   <div class="shell">
     <header>
       <div class="brand">
-        <div class="brand-avatar">
-          <div class="brand-avatar-inner">
-            ✨
-          </div>
+        <div class="brand-logo">
+          <div class="brand-logo-inner">🏜️</div>
         </div>
         <div class="brand-text">
           <div class="brand-title">
-            testingdomconnect
-            <span class="badge">experimental zone</span>
+            desert playground
+            <span class="brand-badge">dune dash lab</span>
           </div>
           <div class="brand-subtitle">
-            a perfectly unnecessary visual playground, hosted on GitHub Pages.
+            An interactive sand-box (literally) hanging off a random subdomain.
           </div>
         </div>
       </div>
@@ -747,168 +750,141 @@
       <nav>
         <div class="chip">
           <span class="dot"></span>
-          <span>live on <strong>crewr.co</strong></span>
+          live at <strong>testingdomconnect.crewr.co</strong>
         </div>
-        <div class="chip blue">no roadmap</div>
-        <div class="chip pink">no purpose</div>
+        <div class="chip chip-gold">static HTML · dynamic chaos</div>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <div class="hero-pre">now broadcasting from a random subdomain</div>
-
+        <div class="hero-pre">side quest unlocked</div>
         <h1 class="hero-title">
-          Welcome to
-          <span class="highlight">beautiful nonsense</span>.
+          Roam the dunes, dodge the sun, and
+          <span>collect imaginary water.</span>
         </h1>
-
         <p class="hero-subtitle">
-          This page exists solely because you felt like wiring a
-          <strong>completely unnecessary</strong> domain to GitHub Pages and
-          seeing what happens. No product. No funnel. Just vibes, gradients,
-          and far too many CSS variables.
+          You wired a custom domain into GitHub Pages, so here’s your reward:
+          a tiny desert game with
+          <strong>no stakes, no leaderboard, and maximum drama</strong> every
+          time the heat bar fills up.
         </p>
 
         <div class="hero-buttons">
           <button class="button button-primary" type="button">
-            <span class="icon">⚡</span>
-            <span>Press for absolutely nothing</span>
+            <span>Start wandering</span> <span>➜</span>
           </button>
-
-          <button class="button button-ghost" type="button">
-            <span>Watch the background do all the work</span>
+          <button class="button button-outline" type="button">
+            Just here to watch the sky change
           </button>
         </div>
 
         <div class="hero-meta">
           <div class="hero-meta-item">
             <span class="hero-meta-dot"></span>
-            Custom domain: <code>testingdomconnect.crewr.co</code>
+            Movement: <kbd>WASD</kbd> or arrow keys
           </div>
           <div class="hero-meta-item">
             <span class="hero-meta-dot"></span>
-            Hosted via: <strong>GitHub Pages</strong>
+            Goal: collect water droplets, avoid the glowing sun
           </div>
           <div class="hero-meta-item">
             <span class="hero-meta-dot"></span>
-            Security level: <strong>HTTPS enabled, purpose disabled</strong>
+            Tech: static HTML, CSS, and a bit of JavaScript dust
           </div>
         </div>
       </section>
 
-      <aside class="board">
-        <article class="card">
-          <div class="sparkles">
-            <span></span><span></span><span></span><span></span>
+      <aside class="playground">
+        <article class="card game-card">
+          <div class="card-title">dune dash · mini game</div>
+          <div class="card-caption">
+            Wander a tiny desert. Water good. Sun hot. Heat bar full =
+            toasted wanderer.
           </div>
-          <div class="card-main">
-            <div class="card-title">chaos metrics</div>
-            <div class="card-big-number" id="chaos-meter">∞</div>
-            <p class="card-caption">
-              Live-updating statistics that are 100% fabricated but look
-              suspiciously like something important.
-            </p>
+
+          <canvas id="desert-game"></canvas>
+
+          <div class="game-hud">
+            <div class="hud-pill">
+              <span class="hud-label">Score</span>
+              <span class="hud-value" id="score">0</span>
+            </div>
+            <div class="hud-pill stretch">
+              <span class="hud-label">Heat</span>
+              <div class="heat-bar">
+                <div class="heat-fill" id="heat-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <p class="game-hint">
+            Use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or the arrow
+            keys to roam. Collect water droplets, stay away from the sun’s
+            bright circle.
+          </p>
+          <p class="game-status" id="status-text">
+            Collect water, keep your cool.
+          </p>
+
+          <div class="game-overlay" id="game-overlay">
+            <div class="game-overlay-inner">
+              <h3>Toasted! 🌞</h3>
+              <p id="final-score">
+                You gathered 0 droplets before the sun caught up.
+              </p>
+              <button class="button button-primary small" id="play-again">
+                Play again
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-controls">
+            <div>
+              <div class="card-title">sky controls</div>
+              <p class="card-caption">
+                Flip between a glowing sunset and a cooler night sky. The dunes
+                stay warm either way.
+              </p>
+              <button
+                class="button button-outline small"
+                type="button"
+                id="toggle-time"
+              >
+                Switch to night
+              </button>
+            </div>
+
             <div class="card-tag-row">
-              <span class="tag green">✨ aesthetically efficient</span>
-              <span class="tag blue">🌀 zero business logic</span>
-              <span class="tag pink">💤 no action items</span>
+              <span class="tag sand">soft dunes</span>
+              <span class="tag sunset">endless sunset mode</span>
+              <span class="tag midnight">micro-constellations</span>
             </div>
-          </div>
-        </article>
 
-        <article class="card">
-          <div class="card-main tiny-scene">
-            <div class="tiny-scene-planet">
-              <div class="tiny-orbit"></div>
-              <div class="tiny-orb"></div>
+            <div class="stripe">
+              <div class="stripe-left">
+                <span class="stripe-dot"></span>
+                <span>status: wandering with no destination</span>
+              </div>
+              <div class="stripe-right">
+                Hosted on GitHub Pages · secured by HTTPS · powered by vibes.
+              </div>
             </div>
-            <div class="tiny-scene-text">
-              <strong>Microscopic demo universe</strong>
-              <br />
-              Every orbit is a reminder that you successfully pointed DNS
-              at a static HTML file, and that is kind of magical.
-            </div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-main">
-            <div class="card-title">front-end spellbook</div>
-            <div class="typewriter" id="typewriter">
-              <span class="text"></span><span class="cursor"></span>
-            </div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-main">
-            <div class="card-title">patch notes · v0.0.1</div>
-            <ul style="list-style: none; font-size: 0.76rem; color: var(--text-muted); display: grid; gap: 0.4rem; margin-top: 0.3rem;">
-              <li>• Introduced several delightful visual distractions.</li>
-              <li>• Fixed zero bugs because they don’t exist yet.</li>
-              <li>• Added particles to improve the illusion of complexity.</li>
-              <li>• Roadmap: continue doing things purely for fun.</li>
-            </ul>
           </div>
         </article>
       </aside>
     </main>
-
-    <section class="stripe">
-      <div class="stripe-marquee">
-        <div class="stripe-marquee-track">
-          <span class="pill">
-            <span class="pill-emoji">🌌</span>
-            <span>100% cosmetic deployment</span>
-          </span>
-          <span class="pill">
-            <span class="pill-emoji">🧪</span>
-            <span>Subdomain laboratory in session</span>
-          </span>
-          <span class="pill">
-            <span class="pill-emoji">🛰️</span>
-            <span>Broadcasting from a static universe</span>
-          </span>
-          <span class="pill">
-            <span class="pill-emoji">🎛️</span>
-            <span>All sliders set to “extra”</span>
-          </span>
-
-          <!-- repeat so marquee loops smoothly -->
-          <span class="pill">
-            <span class="pill-emoji">🌌</span>
-            <span>100% cosmetic deployment</span>
-          </span>
-          <span class="pill">
-            <span class="pill-emoji">🧪</span>
-            <span>Subdomain laboratory in session</span>
-          </span>
-          <span class="pill">
-            <span class="pill-emoji">🛰️</span>
-            <span>Broadcasting from a static universe</span>
-          </span>
-          <span class="pill">
-            <span class="pill-emoji">🎛️</span>
-            <span>All sliders set to “extra”</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="stripe-right">
-        <span class="tiny-status-dot"></span>
-        <span>status: <strong>online & unnecessarily fancy</strong></span>
-      </div>
-    </section>
   </div>
 
   <script>
-    // ====== Particle background ======
+    // === Dust / star particles in the background ===
     (function () {
-      const canvas = document.getElementById("particle-canvas");
+      const canvas = document.getElementById("dust-canvas");
       const ctx = canvas.getContext("2d");
       const particles = [];
-      const maxParticles = 120;
+      const MAX_PARTICLES = 120;
 
       function resize() {
         canvas.width = window.innerWidth;
@@ -919,19 +895,21 @@
       resize();
 
       function makeParticle() {
-        const speed = Math.random() * 0.7 + 0.15;
-        const direction = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 0.4 + 0.05;
+        const dir = Math.random() * Math.PI * 2;
+        const warm = Math.random() < 0.6;
         return {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: Math.cos(direction) * speed,
-          vy: Math.sin(direction) * speed,
-          size: Math.random() * 1.6 + 0.4,
-          alpha: Math.random() * 0.6 + 0.2
+          vx: Math.cos(dir) * speed,
+          vy: Math.sin(dir) * speed,
+          size: Math.random() * 1.5 + 0.4,
+          alpha: Math.random() * 0.6 + 0.2,
+          warm
         };
       }
 
-      for (let i = 0; i < maxParticles; i++) {
+      for (let i = 0; i < MAX_PARTICLES; i++) {
         particles.push(makeParticle());
       }
 
@@ -957,8 +935,13 @@
             p.y,
             p.size * 6
           );
-          gradient.addColorStop(0, "rgba(226, 232, 240," + p.alpha + ")");
-          gradient.addColorStop(1, "rgba(15, 23, 42, 0)");
+          if (p.warm) {
+            gradient.addColorStop(0, "rgba(254, 243, 199," + p.alpha + ")");
+            gradient.addColorStop(1, "rgba(30, 64, 175, 0)");
+          } else {
+            gradient.addColorStop(0, "rgba(191, 219, 254," + p.alpha + ")");
+            gradient.addColorStop(1, "rgba(15, 23, 42, 0)");
+          }
 
           ctx.fillStyle = gradient;
           ctx.beginPath();
@@ -973,49 +956,356 @@
       step();
     })();
 
-    // ====== Typewriter quote ======
+    // === Dune Dash mini-game ===
     (function () {
-      const el = document.querySelector("#typewriter .text");
-      const phrases = [
-        "// fun fact: this site has more gradient layers than features.",
-        "// DNS is basically magical text that makes the internet look up.",
-        "// you just pointed a custom domain at an html file. that rules.",
-        "// no frameworks were harmed in the making of this nonsense.",
-        "// todo: invent a reason for this page to exist. optional."
-      ];
+      const canvas = document.getElementById("desert-game");
+      const ctx = canvas.getContext("2d");
 
-      let index = 0;
-      let charIndex = 0;
-      let current = phrases[0];
-      let deleting = false;
+      const scoreEl = document.getElementById("score");
+      const heatFill = document.getElementById("heat-fill");
+      const statusEl = document.getElementById("status-text");
+      const overlay = document.getElementById("game-overlay");
+      const finalScoreEl = document.getElementById("final-score");
+      const playAgainBtn = document.getElementById("play-again");
 
-      function tick() {
-        if (!el) return;
+      const keys = {};
+      const waterDrops = [];
+      const state = {
+        player: { x: 0, y: 0, r: 12 },
+        sun: { angle: 0, x: 0, y: 0 },
+        score: 0,
+        heat: 0,
+        over: false
+      };
 
-        if (!deleting && charIndex <= current.length) {
-          el.textContent = current.slice(0, charIndex++);
-        } else if (deleting && charIndex >= 0) {
-          el.textContent = current.slice(0, charIndex--);
-        }
+      const MAX_HEAT = 100;
+      let lastTime = null;
 
-        let delay = deleting ? 28 : 34;
+      function resizeGame() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
 
-        if (!deleting && charIndex > current.length) {
-          delay = 1300;
-          deleting = true;
-        }
-
-        if (deleting && charIndex < 0) {
-          deleting = false;
-          index = (index + 1) % phrases.length;
-          current = phrases[index];
-          delay = 200;
-        }
-
-        setTimeout(tick, delay);
+        // reset player near bottom, roughly centered, when resizing
+        state.player.x = canvas.width * 0.5;
+        state.player.y = canvas.height * 0.75;
       }
 
-      tick();
+      window.addEventListener("resize", resizeGame);
+      resizeGame();
+
+      function spawnWater() {
+        if (waterDrops.length > 6) return;
+        if (Math.random() > 0.06) return;
+
+        const marginX = canvas.width * 0.1;
+        const marginYTop = canvas.height * 0.3;
+        const marginYBottom = canvas.height * 0.12;
+        const x =
+          marginX + Math.random() * (canvas.width - marginX * 2);
+        const y =
+          marginYTop +
+          Math.random() * (canvas.height - marginYTop - marginYBottom);
+
+        waterDrops.push({
+          x,
+          y,
+          r: 7 + Math.random() * 4,
+          wobble: Math.random() * Math.PI * 2
+        });
+      }
+
+      function handleInput(dt) {
+        const speed = 140; // pixels per second
+        let dx = 0;
+        let dy = 0;
+
+        if (keys["arrowleft"] || keys["a"]) dx -= 1;
+        if (keys["arrowright"] || keys["d"]) dx += 1;
+        if (keys["arrowup"] || keys["w"]) dy -= 1;
+        if (keys["arrowdown"] || keys["s"]) dy += 1;
+
+        if (dx !== 0 || dy !== 0) {
+          const len = Math.hypot(dx, dy) || 1;
+          dx /= len;
+          dy /= len;
+          state.player.x += dx * speed * dt;
+          state.player.y += dy * speed * dt;
+        }
+
+        // Bounds
+        const r = state.player.r;
+        state.player.x = Math.max(r + 4, Math.min(canvas.width - r - 4, state.player.x));
+        state.player.y = Math.max(r + 4, Math.min(canvas.height - r - 4, state.player.y));
+      }
+
+      function updateSun(dt) {
+        state.sun.angle += dt * 0.4;
+        const cx = canvas.width * 0.5;
+        const cy = canvas.height * 0.3;
+        const rx = canvas.width * 0.32;
+        const ry = canvas.height * 0.18;
+
+        state.sun.x = cx + Math.cos(state.sun.angle) * rx;
+        state.sun.y = cy + Math.sin(state.sun.angle) * ry;
+      }
+
+      function updateCollisions(dt) {
+        // water
+        for (let i = waterDrops.length - 1; i >= 0; i--) {
+          const w = waterDrops[i];
+          const dist = Math.hypot(state.player.x - w.x, state.player.y - w.y);
+          if (dist < state.player.r + w.r) {
+            waterDrops.splice(i, 1);
+            state.score += 1;
+            statusEl.textContent =
+              "Nice find. The dunes are slightly less unforgiving.";
+          }
+        }
+
+        // heat from sun
+        const dist = Math.hypot(
+          state.player.x - state.sun.x,
+          state.player.y - state.sun.y
+        );
+        const dangerRadius = canvas.height * 0.26;
+
+        if (dist < dangerRadius) {
+          state.heat += dt * 35;
+          if (state.heat > MAX_HEAT) {
+            state.heat = MAX_HEAT;
+            endGame();
+          }
+        } else {
+          state.heat -= dt * 20;
+        }
+
+        state.heat = Math.max(0, Math.min(MAX_HEAT, state.heat));
+      }
+
+      function updateHUD() {
+        scoreEl.textContent = state.score;
+        const ratio = state.heat / MAX_HEAT;
+        heatFill.style.width = (ratio * 100).toFixed(1) + "%";
+
+        if (ratio > 0.85) {
+          statusEl.textContent = "You can almost hear the sizzling. Find shade!";
+        } else if (ratio > 0.5 && state.heat > 0) {
+          statusEl.textContent = "The air shimmers. Maybe drift away from the sun a bit.";
+        } else if (state.score === 0 && state.heat === 0) {
+          statusEl.textContent = "Collect water, keep your cool.";
+        }
+      }
+
+      function endGame() {
+        if (state.over) return;
+        state.over = true;
+        finalScoreEl.textContent =
+          "You gathered " +
+          state.score +
+          " droplets before the sun caught up.";
+        overlay.classList.add("visible");
+      }
+
+      function resetGame() {
+        state.score = 0;
+        state.heat = 0;
+        state.over = false;
+        waterDrops.length = 0;
+        resizeGame();
+        statusEl.textContent = "Fresh footprints. New dunes. Same sun.";
+        updateHUD();
+      }
+
+      playAgainBtn.addEventListener("click", function () {
+        overlay.classList.remove("visible");
+        resetGame();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        const key = e.key.toLowerCase();
+        if (
+          ["arrowleft", "arrowright", "arrowup", "arrowdown", "w", "a", "s", "d"].includes(
+            key
+          )
+        ) {
+          e.preventDefault();
+        }
+        keys[key] = true;
+      });
+
+      document.addEventListener("keyup", function (e) {
+        keys[e.key.toLowerCase()] = false;
+      });
+
+      function drawBackground() {
+        const h = canvas.height;
+        const w = canvas.width;
+
+        // sky
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
+        skyGrad.addColorStop(0, "#f97316");
+        skyGrad.addColorStop(0.45, "#1f2937");
+        skyGrad.addColorStop(1, "#020617");
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // dunes
+        const duneGrad = ctx.createLinearGradient(0, h * 0.4, 0, h);
+        duneGrad.addColorStop(0, "#fed7aa");
+        duneGrad.addColorStop(0.5, "#fdba74");
+        duneGrad.addColorStop(1, "#7c2d12");
+        ctx.fillStyle = duneGrad;
+        ctx.beginPath();
+        ctx.moveTo(0, h * 0.55);
+        ctx.quadraticCurveTo(w * 0.3, h * 0.48, w * 0.6, h * 0.6);
+        ctx.quadraticCurveTo(w * 0.8, h * 0.67, w, h * 0.6);
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(0, h * 0.7);
+        ctx.quadraticCurveTo(w * 0.25, h * 0.6, w * 0.5, h * 0.72);
+        ctx.quadraticCurveTo(w * 0.8, h * 0.86, w, h * 0.76);
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+        ctx.fillStyle = "#9a3412";
+        ctx.globalAlpha = 0.9;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      function drawSunAura() {
+        const r = canvas.height * 0.22;
+        const g = ctx.createRadialGradient(
+          state.sun.x,
+          state.sun.y,
+          0,
+          state.sun.x,
+          state.sun.y,
+          r
+        );
+        g.addColorStop(0, "rgba(254, 249, 195, 0.8)");
+        g.addColorStop(0.4, "rgba(253, 224, 171, 0.3)");
+        g.addColorStop(1, "rgba(248, 250, 252, 0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(state.sun.x, state.sun.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawWaterDrops(time) {
+        waterDrops.forEach((w) => {
+          w.wobble += 0.04;
+          const bob = Math.sin(w.wobble) * 1.4;
+
+          const grad = ctx.createRadialGradient(
+            w.x - 2,
+            w.y - 2 + bob,
+            0,
+            w.x,
+            w.y + bob,
+            w.r + 3
+          );
+          grad.addColorStop(0, "#bfdbfe");
+          grad.addColorStop(0.4, "#38bdf8");
+          grad.addColorStop(1, "#0f172a");
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(w.x, w.y + bob, w.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = "rgba(15, 23, 42, 0.9)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(w.x, w.y + bob, w.r, 0, Math.PI * 2);
+          ctx.stroke();
+        });
+      }
+
+      function drawPlayer() {
+        const p = state.player;
+
+        // body
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.fillStyle = "#78350f";
+        ctx.strokeStyle = "rgba(15, 23, 42, 0.8)";
+        ctx.lineWidth = 1.2;
+
+        ctx.beginPath();
+        ctx.moveTo(-p.r, 0);
+        ctx.quadraticCurveTo(-p.r * 0.5, -p.r * 1.2, 0, -p.r * 0.9);
+        ctx.quadraticCurveTo(p.r * 0.8, -p.r * 0.4, p.r, 0);
+        ctx.quadraticCurveTo(p.r * 0.3, p.r * 0.9, -p.r * 0.2, p.r);
+        ctx.quadraticCurveTo(-p.r * 0.9, p.r * 0.8, -p.r, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // little head
+        ctx.beginPath();
+        ctx.arc(p.r * 0.4, -p.r * 0.9, p.r * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = "#92400e";
+        ctx.fill();
+        ctx.stroke();
+
+        // eye
+        ctx.fillStyle = "#f9fafb";
+        ctx.beginPath();
+        ctx.arc(p.r * 0.6, -p.r * 0.98, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#0f172a";
+        ctx.beginPath();
+        ctx.arc(p.r * 0.62, -p.r * 1.0, 1, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      function loop(timestamp) {
+        if (!lastTime) lastTime = timestamp;
+        const dt = Math.min((timestamp - lastTime) / 1000, 0.035);
+        lastTime = timestamp;
+
+        if (!state.over) {
+          handleInput(dt);
+          updateSun(dt);
+          spawnWater();
+          updateCollisions(dt);
+          updateHUD();
+        }
+
+        // draw
+        drawBackground();
+        drawSunAura();
+        drawWaterDrops(timestamp);
+        drawPlayer();
+
+        requestAnimationFrame(loop);
+      }
+
+      resetGame();
+      requestAnimationFrame(loop);
+    })();
+
+    // === Day / night toggle ===
+    (function () {
+      const toggleBtn = document.getElementById("toggle-time");
+      let night = false;
+
+      if (!toggleBtn) return;
+
+      toggleBtn.addEventListener("click", function () {
+        night = !night;
+        document.body.classList.toggle("is-night", night);
+        toggleBtn.textContent = night ? "Switch to sunset" : "Switch to night";
+      });
     })();
   </script>
 </body>
