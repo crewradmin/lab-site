@@ -2,26 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Majestic Garafee · Pixel Portrait</title>
+  <title>Watercolor Garafee · Pure CSS Illustration</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root {
-      --page-bg: #ffffff;
-
-      --grid-bg: #f5f5f5;
-      --grid-border: #e5e7eb;
-
-      --g-outline: #8a4b21;
-      --g-main: #fbbf77;
-      --g-shadow: #e59a4a;
-      --g-spot: #d47a2f;
-      --g-horn: #d9c38f;
-      --g-inner-ear: #f5b3a3;
-      --g-muzzle: #fdd9a0;
-      --g-nostril: #7b3b1c;
-      --g-eye-white: #ffffff;
-      --g-eye-pupil: #111827;
+      --bg: #ffffff;
+      --shadow: rgba(15, 23, 42, 0.12);
     }
 
     * {
@@ -32,10 +19,9 @@
 
     html, body {
       height: 100%;
-      background: var(--page-bg);
+      background: var(--bg);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
-      color: #111827;
     }
 
     body {
@@ -45,153 +31,601 @@
       padding: 1.5rem;
     }
 
-    .wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      max-width: 900px;
+    .frame {
+      max-width: 480px;
       width: 100%;
     }
 
     .title {
+      text-align: center;
       font-size: 0.9rem;
-      text-transform: uppercase;
       letter-spacing: 0.25em;
-      color: #4b5563;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 0.35rem;
     }
 
     .subtitle {
-      font-size: 0.8rem;
-      color: #6b7280;
       text-align: center;
-      max-width: 26rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 0.9rem;
     }
 
-    .pixel-card {
-      padding: 1rem;
-      border-radius: 18px;
-      background: var(--grid-bg);
+    .canvas {
+      position: relative;
+      width: 100%;
+      padding-top: 155%; /* aspect ratio */
+      border-radius: 24px;
+      background: #ffffff;
       box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.18),
-        0 0 0 1px var(--grid-border);
+        0 26px 70px var(--shadow),
+        0 0 0 1px #e5e7eb;
+      overflow: hidden;
     }
 
-    .pixel-art {
-      display: grid;
-      /* JS will overwrite these to match the map size */
-      grid-template-columns: repeat(32, 14px);
-      grid-template-rows: repeat(24, 14px);
-      gap: 1px;
-      background: #e5e7eb;
-      padding: 10px;
-      border-radius: 12px;
+    .giraffe {
+      position: absolute;
+      inset: 6% 10% 4%;
+      pointer-events: none;
+    }
+
+    /* soft watercolor bleed behind everything */
+    .giraffe::before {
+      content: "";
+      position: absolute;
+      inset: 4% 10% 10%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 40% 25%, rgba(249, 115, 22, 0.25), transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.25), transparent 60%),
+        radial-gradient(circle at 35% 70%, rgba(56, 189, 248, 0.22), transparent 60%),
+        radial-gradient(circle at 70% 80%, rgba(129, 140, 248, 0.22), transparent 60%);
+      filter: blur(28px);
+      opacity: 0.7;
+    }
+
+    /* neck */
+
+    .neck {
+      position: absolute;
+      width: 42%;
+      height: 82%;
+      left: 52%;
+      bottom: 0;
+      transform: translateX(-50%);
+      border-radius: 70px 70px 40px 40px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(249, 115, 22, 0.8),
+          rgba(245, 158, 11, 0.95) 18%,
+          rgba(250, 204, 21, 0.95) 30%,
+          rgba(52, 211, 153, 0.9) 48%,
+          rgba(56, 189, 248, 0.95) 65%,
+          rgba(129, 140, 248, 0.95) 78%,
+          rgba(244, 114, 182, 0.9) 95%
+        );
       box-shadow:
-        inset 0 0 0 1px rgba(229, 231, 235, 0.9),
-        0 18px 40px rgba(15, 23, 42, 0.12);
+        0 14px 35px rgba(0, 0, 0, 0.28);
+      overflow: visible;
     }
 
-    .px {
+    .neck::before {
+      /* soft inner highlight down center */
+      content: "";
+      position: absolute;
+      inset: 5% 22% 3%;
+      border-radius: 60px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(252, 211, 77, 0.85),
+          rgba(252, 211, 77, 0.1) 45%,
+          rgba(59, 130, 246, 0.18) 70%,
+          transparent 100%
+        );
+      mix-blend-mode: screen;
+      opacity: 0.9;
+    }
+
+    .neck::after {
+      /* right shadow edge */
+      content: "";
+      position: absolute;
+      inset: 4% 0 6% 60%;
+      border-radius: 60px;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0.4)
+      );
+      opacity: 0.18;
+    }
+
+    /* neck spots */
+
+    .spot {
+      position: absolute;
+      border-radius: 50% 45% 60% 40%;
+      filter: blur(0.4px);
+      mix-blend-mode: multiply;
+    }
+
+    .spot.s1 {
+      width: 26%;
+      height: 12%;
+      left: 50%;
+      top: 32%;
+      background: radial-gradient(circle at 30% 40%, #f97316, #ea580c);
+    }
+
+    .spot.s2 {
+      width: 22%;
+      height: 10%;
+      left: 60%;
+      top: 42%;
+      background: radial-gradient(circle at 60% 40%, #14b8a6, #0f766e);
+    }
+
+    .spot.s3 {
+      width: 22%;
+      height: 11%;
+      left: 40%;
+      top: 50%;
+      background: radial-gradient(circle at 40% 60%, #3b82f6, #1d4ed8);
+    }
+
+    .spot.s4 {
+      width: 25%;
+      height: 12%;
+      left: 55%;
+      top: 60%;
+      background: radial-gradient(circle at 35% 40%, #4f46e5, #3730a3);
+    }
+
+    .spot.s5 {
+      width: 26%;
+      height: 13%;
+      left: 45%;
+      top: 72%;
+      background: radial-gradient(circle at 40% 40%, #ec4899, #be185d);
+    }
+
+    /* mane along right side of neck */
+
+    .mane {
+      position: absolute;
+      width: 12%;
+      height: 77%;
+      right: 4%;
+      bottom: 3%;
+      border-radius: 40px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(248, 113, 113, 0.2),
+          rgba(220, 38, 38, 0.38),
+          rgba(185, 28, 28, 0.45)
+        );
+      box-shadow:
+        -4px 0 10px rgba(127, 29, 29, 0.5);
+    }
+
+    .mane::before {
+      content: "";
+      position: absolute;
+      inset: 6% 35% 6% 0;
+      border-radius: 40px;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(248, 250, 252, 0.02) 0,
+        rgba(248, 250, 252, 0.02) 4px,
+        rgba(127, 29, 29, 0.35) 9px
+      );
+      opacity: 0.7;
+    }
+
+    /* head base */
+
+    .head {
+      position: absolute;
+      width: 62%;
+      height: 52%;
+      left: 51%;
+      top: 3%;
+      transform: translateX(-50%);
+      border-radius: 55% 55% 48% 48%;
+      background:
+        radial-gradient(circle at 40% 0%, #fef3c7 0, #fed7aa 35%, #f97316 70%, #92400e 100%);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.35);
+      overflow: visible;
+    }
+
+    .head::before {
+      /* cool tones on left side of face */
+      content: "";
+      position: absolute;
+      inset: 6% 52% 16% 4%;
+      border-radius: 60% 40% 40% 60%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.9), rgba(6, 95, 180, 0.7) 60%, transparent 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.7;
+    }
+
+    .head::after {
+      /* warm tones along center & right */
+      content: "";
+      position: absolute;
+      inset: 8% 6% 14% 44%;
+      border-radius: 65% 35% 40% 60%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.95), rgba(249, 115, 22, 0.9) 50%, rgba(185, 28, 28, 0.75) 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.8;
+    }
+
+    /* muzzle */
+
+    .muzzle {
+      position: absolute;
+      width: 56%;
+      height: 38%;
+      left: 50%;
+      bottom: -6%;
+      transform: translateX(-50%);
+      border-radius: 55% 55% 60% 60%;
+      background:
+        radial-gradient(circle at 50% 0%, #fef3c7 0, #fed7aa 40%, #fbbf24 75%, #92400e 100%);
+      box-shadow:
+        0 12px 28px rgba(0,0,0,0.35);
+    }
+
+    .muzzle::before {
+      /* darker lower lip area */
+      content: "";
+      position: absolute;
+      inset: 58% 18% 3%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 20%, #7c2d12, #451a03 70%);
+      opacity: 0.9;
+    }
+
+    .muzzle::after {
+      /* highlight strip down center */
+      content: "";
+      position: absolute;
+      inset: 18% 40% 28%;
+      border-radius: 999px;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.9),
+        rgba(251, 191, 36, 0.08)
+      );
+      opacity: 0.9;
+    }
+
+    /* nostrils */
+
+    .nostril {
+      position: absolute;
+      width: 16%;
+      height: 22%;
+      bottom: 30%;
+      border-radius: 60% 50% 70% 50%;
+      background: radial-gradient(circle at 40% 25%, #111827, #451a03 80%);
+      box-shadow:
+        0 0 6px rgba(0,0,0,0.6);
+    }
+
+    .nostril.left {
+      left: 26%;
+    }
+
+    .nostril.right {
+      right: 26%;
+      border-radius: 50% 60% 50% 70%;
+    }
+
+    /* eyes */
+
+    .eye {
+      position: absolute;
+      width: 30%;
+      height: 24%;
+      top: 32%;
+      border-radius: 60% 60% 40% 40%;
+      overflow: visible;
+    }
+
+    .eye.left {
+      left: 14%;
+      transform: rotate(-5deg);
+    }
+
+    .eye.right {
+      right: 14%;
+      transform: rotate(5deg);
+    }
+
+    .eye .lid {
+      position: absolute;
+      inset: 14% 8% 40%;
+      border-radius: 60% 60% 40% 40%;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(15, 23, 42, 0.9),
+          rgba(55, 65, 81, 0.7)
+        );
+      box-shadow:
+        0 3px 5px rgba(0,0,0,0.6);
+    }
+
+    .eye .white {
+      position: absolute;
+      inset: 45% 12% 14% 20%;
+      border-radius: 60% 60% 60% 60%;
+      background: radial-gradient(circle at 40% 20%, #ffffff, #e5e7eb 80%);
+      box-shadow:
+        0 0 4px rgba(15,23,42,0.6);
+    }
+
+    .eye .pupil {
+      position: absolute;
+      inset: 55% 40% 20% 35%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffff 0, #111827 60%, #020617 100%);
+    }
+
+    .eye .lash {
+      position: absolute;
+      top: 4%;
+      left: 10%;
+      right: 10%;
+      height: 18%;
+      border-radius: 999px;
+      border-top: 2px solid rgba(15,23,42,0.9);
+      box-shadow:
+        -4px -3px 0 rgba(15,23,42,0.85),
+        4px -3px 0 rgba(15,23,42,0.85);
+    }
+
+    /* horns */
+
+    .horn {
+      position: absolute;
+      width: 16%;
+      height: 26%;
+      top: -4%;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(120, 53, 15, 0.95),
+          rgba(249, 115, 22, 0.9) 25%,
+          rgba(234,179,8,0.95) 60%,
+          rgba(236, 252, 203, 0.95)
+        );
+      box-shadow:
+        0 6px 12px rgba(0,0,0,0.4);
+    }
+
+    .horn::before {
+      /* fuzzy tip */
+      content: "";
+      position: absolute;
+      top: -18%;
+      left: 18%;
+      right: 18%;
+      height: 35%;
+      border-radius: 999px;
+      background: radial-gradient(circle at 50% 80%, #111827, #000000);
+      box-shadow:
+        0 4px 6px rgba(0,0,0,0.65);
+    }
+
+    .horn.left {
+      left: 26%;
+      transform: rotate(-2deg);
+    }
+
+    .horn.right {
+      right: 26%;
+      transform: rotate(2deg);
+    }
+
+    /* ears */
+
+    .ear {
+      position: absolute;
+      width: 40%;
+      height: 32%;
+      top: 6%;
+      border-radius: 60% 10% 60% 20%;
+      overflow: hidden;
+      box-shadow:
+        0 10px 16px rgba(0,0,0,0.35);
+    }
+
+    .ear.left {
+      left: -8%;
+      transform: rotate(-10deg);
+    }
+
+    .ear.right {
+      right: -8%;
+      transform: scaleX(-1) rotate(-10deg);
+    }
+
+    .ear-inner {
+      position: absolute;
+      inset: 8% 12% 16% 24%;
+      border-radius: 60% 10% 50% 40%;
+      background:
+        radial-gradient(circle at 40% 10%, #e5e7eb, #9ca3af 45%, #020617 85%);
+    }
+
+    .ear-color {
+      position: absolute;
+      inset: 35% 8% 14% 30%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 0 0, rgba(96, 165, 250, 0.9), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(251, 113, 133, 0.9), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: 0.85;
+    }
+
+    /* paint drips & splatters */
+
+    .drip {
+      position: absolute;
+      width: 6px;
+      bottom: -5%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,0.85));
+      filter: blur(0.2px);
+    }
+
+    .drip.d1 {
+      left: 50%;
+      height: 24%;
+    }
+
+    .drip.d2 {
+      left: 44%;
+      height: 16%;
+      background: linear-gradient(180deg, rgba(249,115,22,0), rgba(249,115,22,0.95));
+    }
+
+    .splatter {
+      position: absolute;
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+    }
+
+    .splatter.s1 {
+      width: 10px;
+      height: 10px;
+      left: 8%;
+      top: 46%;
+      background: radial-gradient(circle, #fbbf24, transparent 70%);
+    }
+    .splatter.s2 {
+      width: 12px;
+      height: 12px;
+      left: 18%;
+      top: 18%;
+      background: radial-gradient(circle, #f97316, transparent 70%);
+    }
+    .splatter.s3 {
       width: 14px;
       height: 14px;
-      background: #ffffff; /* white background pixels */
+      right: 10%;
+      top: 22%;
+      background: radial-gradient(circle, #22c55e, transparent 70%);
+    }
+    .splatter.s4 {
+      width: 9px;
+      height: 9px;
+      right: 8%;
+      top: 46%;
+      background: radial-gradient(circle, #3b82f6, transparent 70%);
+    }
+    .splatter.s5 {
+      width: 7px;
+      height: 7px;
+      right: 20%;
+      bottom: 12%;
+      background: radial-gradient(circle, #a855f7, transparent 70%);
     }
 
-    /* Color classes for each pixel type */
-    .outline { background: var(--g-outline); }
-    .fur-main { background: var(--g-main); }
-    .fur-shadow { background: var(--g-shadow); }
-    .spot { background: var(--g-spot); }
-    .horn { background: var(--g-horn); }
-    .inner-ear { background: var(--g-inner-ear); }
-    .muzzle { background: var(--g-muzzle); }
-    .nostril { background: var(--g-nostril); }
-    .eye-white { background: var(--g-eye-white); }
-    .eye-pupil { background: var(--g-eye-pupil); }
+    /* subtle breathing animation */
 
-    @media (min-width: 768px) {
-      .pixel-art {
-        image-rendering: pixelated;
+    .head,
+    .neck {
+      animation: breathe 5.5s ease-in-out infinite;
+      transform-origin: 50% 100%;
+    }
+
+    @keyframes breathe {
+      0%, 100% {
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.015);
       }
     }
+
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="title">majestic garafee · pixel portrait</div>
+  <div class="frame">
+    <div class="title">watercolor garafee</div>
     <div class="subtitle">
-      32 × 24 pixel grid, rendered pixel by pixel with HTML, CSS, and a tiny bit of JS.
-      No image files — just a giraffe head built from colored squares on a white background.
+      A rainbow giraffe head &amp; neck on white, built entirely with HTML &amp; CSS:
+      gradients, shadows, blurs, and layered shapes — no images.
     </div>
 
-    <div class="pixel-card">
-      <div id="garafee-canvas" class="pixel-art" aria-label="Pixel art of a giraffe head"></div>
+    <div class="canvas">
+      <div class="giraffe">
+        <!-- neck -->
+        <div class="neck">
+          <div class="spot s1"></div>
+          <div class="spot s2"></div>
+          <div class="spot s3"></div>
+          <div class="spot s4"></div>
+          <div class="spot s5"></div>
+          <div class="mane"></div>
+        </div>
+
+        <!-- head -->
+        <div class="head">
+          <div class="eye left">
+            <div class="lid"></div>
+            <div class="lash"></div>
+            <div class="white"></div>
+            <div class="pupil"></div>
+          </div>
+          <div class="eye right">
+            <div class="lid"></div>
+            <div class="lash"></div>
+            <div class="white"></div>
+            <div class="pupil"></div>
+          </div>
+
+          <div class="muzzle">
+            <div class="nostril left"></div>
+            <div class="nostril right"></div>
+          </div>
+
+          <div class="horn left"></div>
+          <div class="horn right"></div>
+
+          <div class="ear left">
+            <div class="ear-inner"></div>
+            <div class="ear-color"></div>
+          </div>
+          <div class="ear right">
+            <div class="ear-inner"></div>
+            <div class="ear-color"></div>
+          </div>
+
+          <div class="drip d1"></div>
+          <div class="drip d2"></div>
+        </div>
+
+        <!-- splatter dots around -->
+        <div class="splatter s1"></div>
+        <div class="splatter s2"></div>
+        <div class="splatter s3"></div>
+        <div class="splatter s4"></div>
+        <div class="splatter s5"></div>
+      </div>
     </div>
   </div>
-
-  <script>
-    // 32 columns wide, 24 rows tall
-    const PIXEL_MAP = [
-      "................................",
-      "..............h..h..............",
-      ".............hh..hh.............",
-      "...........bbbbbbbbbb...........",
-      ".........ebbbbbbbbbbbbe.........",
-      "..........bYYYYYYYYYYb..........",
-      ".........bYYYYYYYYYYYYb.........",
-      ".........bYYYYYYYYYYYYb.........",
-      ".........bYYYEYYYYEYYYb.........",
-      ".........bYYYpYYYYpYYYb.........",
-      ".........bYYYYYYYSSSSYb.........",
-      ".........bYYmmmmmmmYYYb.........",
-      ".........bYYmmnmmnmYYYb.........",
-      ".........bYYmmmmmmmYYYb.........",
-      "..........bYYYYYYYYYYb..........",
-      "...........bYYYYYYYYb...........",
-      "...........bYYdYYdYYb...........",
-      "...........bYYYYYYYYb...........",
-      "...........bYdYYYYdYb...........",
-      "...........bYYYYYYYYb...........",
-      "...........bYYYdYYYYb...........",
-      "...........bYYYYYdYYb...........",
-      "...........bYdYYYYdYb...........",
-      "...........bYYYYYYYYb..........."
-    ];
-
-    // Map characters in the PIXEL_MAP to CSS classes
-    const COLOR_MAP = {
-      ".": null,          // background
-      "b": "outline",     // outline of head & neck
-      "Y": "fur-main",   // main fur
-      "S": "fur-shadow", // shadowed fur on right side
-      "d": "spot",       // darker spots on neck
-      "h": "horn",       // horns
-      "e": "inner-ear",  // inner ears
-      "m": "muzzle",     // muzzle area
-      "n": "nostril",    // nostrils
-      "E": "eye-white",  // eye whites
-      "p": "eye-pupil"   // pupils
-    };
-
-    const canvas = document.getElementById("garafee-canvas");
-    const rows = PIXEL_MAP.length;
-    const cols = PIXEL_MAP[0].length;
-
-    // Make sure the grid matches the pixel map size
-    canvas.style.gridTemplateColumns = `repeat(${cols}, 14px)`;
-    canvas.style.gridTemplateRows = `repeat(${rows}, 14px)`;
-
-    PIXEL_MAP.forEach(row => {
-      row.split("").forEach(char => {
-        const px = document.createElement("div");
-        px.classList.add("px");
-        const colorClass = COLOR_MAP[char];
-        if (colorClass) {
-          px.classList.add(colorClass);
-        }
-        canvas.appendChild(px);
-      });
-    });
-  </script>
 </body>
 </html>
