@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Watercolor Garafee · Pure CSS Illustration</title>
+  <title>Garafee Gallery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root {
-      --bg: #ffffff;
-      --shadow: rgba(15, 23, 42, 0.12);
+      --page-bg: #f9fafb;
+      --card-bg: #ffffff;
+      --border-soft: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
     }
 
     * {
@@ -19,9 +22,10 @@
 
     html, body {
       height: 100%;
-      background: var(--bg);
+      background: var(--page-bg);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
+      color: var(--text-main);
     }
 
     body {
@@ -32,46 +36,105 @@
     }
 
     .frame {
-      max-width: 480px;
+      max-width: 1100px;
       width: 100%;
     }
 
-    .title {
+    header {
+      margin-bottom: 1.25rem;
       text-align: center;
-      font-size: 0.9rem;
+    }
+
+    .title {
+      font-size: 1rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: #6b7280;
+      color: #4b5563;
       margin-bottom: 0.35rem;
     }
 
     .subtitle {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-bottom: 0.9rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 36rem;
+      margin: 0 auto;
     }
 
-    .canvas {
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .art-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border-soft);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.12);
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .art-thumb {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f3f4f6;
+      min-height: 220px;
+      box-shadow:
+        inset 0 0 0 1px rgba(229, 231, 235, 0.8);
+    }
+
+    .art-thumb img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .art-meta-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .art-meta-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      padding: 0.12rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      color: #4b5563;
+      margin-top: 0.25rem;
+    }
+
+    /* ===== CSS GARAFEE ART (scoped) ===== */
+
+    .css-garafee {
       position: relative;
       width: 100%;
-      padding-top: 155%; /* aspect ratio */
-      border-radius: 24px;
+      height: 100%;
       background: #ffffff;
-      box-shadow:
-        0 26px 70px var(--shadow),
-        0 0 0 1px #e5e7eb;
+      border-radius: 16px;
       overflow: hidden;
     }
 
-    .giraffe {
+    .css-garafee .giraffe {
       position: absolute;
       inset: 6% 10% 4%;
-      pointer-events: none;
     }
 
-    /* soft watercolor bleed behind everything */
-    .giraffe::before {
+    .css-garafee .giraffe::before {
       content: "";
       position: absolute;
       inset: 4% 10% 10%;
@@ -85,9 +148,7 @@
       opacity: 0.7;
     }
 
-    /* neck */
-
-    .neck {
+    .css-garafee .neck {
       position: absolute;
       width: 42%;
       height: 82%;
@@ -108,11 +169,9 @@
         );
       box-shadow:
         0 14px 35px rgba(0, 0, 0, 0.28);
-      overflow: visible;
     }
 
-    .neck::before {
-      /* soft inner highlight down center */
+    .css-garafee .neck::before {
       content: "";
       position: absolute;
       inset: 5% 22% 3%;
@@ -129,8 +188,7 @@
       opacity: 0.9;
     }
 
-    .neck::after {
-      /* right shadow edge */
+    .css-garafee .neck::after {
       content: "";
       position: absolute;
       inset: 4% 0 6% 60%;
@@ -143,48 +201,42 @@
       opacity: 0.18;
     }
 
-    /* neck spots */
-
-    .spot {
+    .css-garafee .spot {
       position: absolute;
       border-radius: 50% 45% 60% 40%;
       filter: blur(0.4px);
       mix-blend-mode: multiply;
     }
 
-    .spot.s1 {
+    .css-garafee .spot.s1 {
       width: 26%;
       height: 12%;
       left: 50%;
       top: 32%;
       background: radial-gradient(circle at 30% 40%, #f97316, #ea580c);
     }
-
-    .spot.s2 {
+    .css-garafee .spot.s2 {
       width: 22%;
       height: 10%;
       left: 60%;
       top: 42%;
       background: radial-gradient(circle at 60% 40%, #14b8a6, #0f766e);
     }
-
-    .spot.s3 {
+    .css-garafee .spot.s3 {
       width: 22%;
       height: 11%;
       left: 40%;
       top: 50%;
       background: radial-gradient(circle at 40% 60%, #3b82f6, #1d4ed8);
     }
-
-    .spot.s4 {
+    .css-garafee .spot.s4 {
       width: 25%;
       height: 12%;
       left: 55%;
       top: 60%;
       background: radial-gradient(circle at 35% 40%, #4f46e5, #3730a3);
     }
-
-    .spot.s5 {
+    .css-garafee .spot.s5 {
       width: 26%;
       height: 13%;
       left: 45%;
@@ -192,9 +244,7 @@
       background: radial-gradient(circle at 40% 40%, #ec4899, #be185d);
     }
 
-    /* mane along right side of neck */
-
-    .mane {
+    .css-garafee .mane {
       position: absolute;
       width: 12%;
       height: 77%;
@@ -212,7 +262,7 @@
         -4px 0 10px rgba(127, 29, 29, 0.5);
     }
 
-    .mane::before {
+    .css-garafee .mane::before {
       content: "";
       position: absolute;
       inset: 6% 35% 6% 0;
@@ -226,9 +276,7 @@
       opacity: 0.7;
     }
 
-    /* head base */
-
-    .head {
+    .css-garafee .head {
       position: absolute;
       width: 62%;
       height: 52%;
@@ -240,11 +288,9 @@
         radial-gradient(circle at 40% 0%, #fef3c7 0, #fed7aa 35%, #f97316 70%, #92400e 100%);
       box-shadow:
         0 18px 40px rgba(0,0,0,0.35);
-      overflow: visible;
     }
 
-    .head::before {
-      /* cool tones on left side of face */
+    .css-garafee .head::before {
       content: "";
       position: absolute;
       inset: 6% 52% 16% 4%;
@@ -255,8 +301,7 @@
       opacity: 0.7;
     }
 
-    .head::after {
-      /* warm tones along center & right */
+    .css-garafee .head::after {
       content: "";
       position: absolute;
       inset: 8% 6% 14% 44%;
@@ -267,9 +312,7 @@
       opacity: 0.8;
     }
 
-    /* muzzle */
-
-    .muzzle {
+    .css-garafee .muzzle {
       position: absolute;
       width: 56%;
       height: 38%;
@@ -283,8 +326,7 @@
         0 12px 28px rgba(0,0,0,0.35);
     }
 
-    .muzzle::before {
-      /* darker lower lip area */
+    .css-garafee .muzzle::before {
       content: "";
       position: absolute;
       inset: 58% 18% 3%;
@@ -293,8 +335,7 @@
       opacity: 0.9;
     }
 
-    .muzzle::after {
-      /* highlight strip down center */
+    .css-garafee .muzzle::after {
       content: "";
       position: absolute;
       inset: 18% 40% 28%;
@@ -307,9 +348,7 @@
       opacity: 0.9;
     }
 
-    /* nostrils */
-
-    .nostril {
+    .css-garafee .nostril {
       position: absolute;
       width: 16%;
       height: 22%;
@@ -320,18 +359,16 @@
         0 0 6px rgba(0,0,0,0.6);
     }
 
-    .nostril.left {
+    .css-garafee .nostril.left {
       left: 26%;
     }
 
-    .nostril.right {
+    .css-garafee .nostril.right {
       right: 26%;
       border-radius: 50% 60% 50% 70%;
     }
 
-    /* eyes */
-
-    .eye {
+    .css-garafee .eye {
       position: absolute;
       width: 30%;
       height: 24%;
@@ -340,17 +377,17 @@
       overflow: visible;
     }
 
-    .eye.left {
+    .css-garafee .eye.left {
       left: 14%;
       transform: rotate(-5deg);
     }
 
-    .eye.right {
+    .css-garafee .eye.right {
       right: 14%;
       transform: rotate(5deg);
     }
 
-    .eye .lid {
+    .css-garafee .eye .lid {
       position: absolute;
       inset: 14% 8% 40%;
       border-radius: 60% 60% 40% 40%;
@@ -364,7 +401,7 @@
         0 3px 5px rgba(0,0,0,0.6);
     }
 
-    .eye .white {
+    .css-garafee .eye .white {
       position: absolute;
       inset: 45% 12% 14% 20%;
       border-radius: 60% 60% 60% 60%;
@@ -373,14 +410,14 @@
         0 0 4px rgba(15,23,42,0.6);
     }
 
-    .eye .pupil {
+    .css-garafee .eye .pupil {
       position: absolute;
       inset: 55% 40% 20% 35%;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #ffffff 0, #111827 60%, #020617 100%);
     }
 
-    .eye .lash {
+    .css-garafee .eye .lash {
       position: absolute;
       top: 4%;
       left: 10%;
@@ -393,9 +430,7 @@
         4px -3px 0 rgba(15,23,42,0.85);
     }
 
-    /* horns */
-
-    .horn {
+    .css-garafee .horn {
       position: absolute;
       width: 16%;
       height: 26%;
@@ -413,8 +448,7 @@
         0 6px 12px rgba(0,0,0,0.4);
     }
 
-    .horn::before {
-      /* fuzzy tip */
+    .css-garafee .horn::before {
       content: "";
       position: absolute;
       top: -18%;
@@ -427,19 +461,17 @@
         0 4px 6px rgba(0,0,0,0.65);
     }
 
-    .horn.left {
+    .css-garafee .horn.left {
       left: 26%;
       transform: rotate(-2deg);
     }
 
-    .horn.right {
+    .css-garafee .horn.right {
       right: 26%;
       transform: rotate(2deg);
     }
 
-    /* ears */
-
-    .ear {
+    .css-garafee .ear {
       position: absolute;
       width: 40%;
       height: 32%;
@@ -450,17 +482,17 @@
         0 10px 16px rgba(0,0,0,0.35);
     }
 
-    .ear.left {
+    .css-garafee .ear.left {
       left: -8%;
       transform: rotate(-10deg);
     }
 
-    .ear.right {
+    .css-garafee .ear.right {
       right: -8%;
       transform: scaleX(-1) rotate(-10deg);
     }
 
-    .ear-inner {
+    .css-garafee .ear-inner {
       position: absolute;
       inset: 8% 12% 16% 24%;
       border-radius: 60% 10% 50% 40%;
@@ -468,7 +500,7 @@
         radial-gradient(circle at 40% 10%, #e5e7eb, #9ca3af 45%, #020617 85%);
     }
 
-    .ear-color {
+    .css-garafee .ear-color {
       position: absolute;
       inset: 35% 8% 14% 30%;
       border-radius: 50%;
@@ -479,9 +511,7 @@
       opacity: 0.85;
     }
 
-    /* paint drips & splatters */
-
-    .drip {
+    .css-garafee .drip {
       position: absolute;
       width: 6px;
       bottom: -5%;
@@ -490,52 +520,52 @@
       filter: blur(0.2px);
     }
 
-    .drip.d1 {
+    .css-garafee .drip.d1 {
       left: 50%;
       height: 24%;
     }
 
-    .drip.d2 {
+    .css-garafee .drip.d2 {
       left: 44%;
       height: 16%;
       background: linear-gradient(180deg, rgba(249,115,22,0), rgba(249,115,22,0.95));
     }
 
-    .splatter {
+    .css-garafee .splatter {
       position: absolute;
       border-radius: 50%;
       mix-blend-mode: multiply;
     }
 
-    .splatter.s1 {
+    .css-garafee .splatter.s1 {
       width: 10px;
       height: 10px;
       left: 8%;
       top: 46%;
       background: radial-gradient(circle, #fbbf24, transparent 70%);
     }
-    .splatter.s2 {
+    .css-garafee .splatter.s2 {
       width: 12px;
       height: 12px;
       left: 18%;
       top: 18%;
       background: radial-gradient(circle, #f97316, transparent 70%);
     }
-    .splatter.s3 {
+    .css-garafee .splatter.s3 {
       width: 14px;
       height: 14px;
       right: 10%;
       top: 22%;
       background: radial-gradient(circle, #22c55e, transparent 70%);
     }
-    .splatter.s4 {
+    .css-garafee .splatter.s4 {
       width: 9px;
       height: 9px;
       right: 8%;
       top: 46%;
       background: radial-gradient(circle, #3b82f6, transparent 70%);
     }
-    .splatter.s5 {
+    .css-garafee .splatter.s5 {
       width: 7px;
       height: 7px;
       right: 20%;
@@ -543,10 +573,8 @@
       background: radial-gradient(circle, #a855f7, transparent 70%);
     }
 
-    /* subtle breathing animation */
-
-    .head,
-    .neck {
+    .css-garafee .head,
+    .css-garafee .neck {
       animation: breathe 5.5s ease-in-out infinite;
       transform-origin: 50% 100%;
     }
@@ -559,73 +587,117 @@
         transform: translateX(-50%) scale(1.015);
       }
     }
-
   </style>
 </head>
 <body>
   <div class="frame">
-    <div class="title">watercolor garafee</div>
-    <div class="subtitle">
-      A rainbow giraffe head &amp; neck on white, built entirely with HTML &amp; CSS:
-      gradients, shadows, blurs, and layered shapes — no images.
-    </div>
+    <header>
+      <div class="title">garafee gallery</div>
+      <p class="subtitle">
+        A tiny gallery mixing a pure HTML/CSS giraffe painting with a real watercolor giraffe image.
+      </p>
+    </header>
 
-    <div class="canvas">
-      <div class="giraffe">
-        <!-- neck -->
-        <div class="neck">
-          <div class="spot s1"></div>
-          <div class="spot s2"></div>
-          <div class="spot s3"></div>
-          <div class="spot s4"></div>
-          <div class="spot s5"></div>
-          <div class="mane"></div>
+    <main class="gallery">
+      <!-- Card 1: CSS-only Garafee -->
+      <article class="art-card">
+        <div class="art-thumb">
+          <div class="css-garafee">
+            <div class="giraffe">
+              <div class="neck">
+                <div class="spot s1"></div>
+                <div class="spot s2"></div>
+                <div class="spot s3"></div>
+                <div class="spot s4"></div>
+                <div class="spot s5"></div>
+                <div class="mane"></div>
+              </div>
+
+              <div class="head">
+                <div class="eye left">
+                  <div class="lid"></div>
+                  <div class="lash"></div>
+                  <div class="white"></div>
+                  <div class="pupil"></div>
+                </div>
+                <div class="eye right">
+                  <div class="lid"></div>
+                  <div class="lash"></div>
+                  <div class="white"></div>
+                  <div class="pupil"></div>
+                </div>
+
+                <div class="muzzle">
+                  <div class="nostril left"></div>
+                  <div class="nostril right"></div>
+                </div>
+
+                <div class="horn left"></div>
+                <div class="horn right"></div>
+
+                <div class="ear left">
+                  <div class="ear-inner"></div>
+                  <div class="ear-color"></div>
+                </div>
+                <div class="ear right">
+                  <div class="ear-inner"></div>
+                  <div class="ear-color"></div>
+                </div>
+
+                <div class="drip d1"></div>
+                <div class="drip d2"></div>
+              </div>
+
+              <div class="splatter s1"></div>
+              <div class="splatter s2"></div>
+              <div class="splatter s3"></div>
+              <div class="splatter s4"></div>
+              <div class="splatter s5"></div>
+            </div>
+          </div>
         </div>
-
-        <!-- head -->
-        <div class="head">
-          <div class="eye left">
-            <div class="lid"></div>
-            <div class="lash"></div>
-            <div class="white"></div>
-            <div class="pupil"></div>
-          </div>
-          <div class="eye right">
-            <div class="lid"></div>
-            <div class="lash"></div>
-            <div class="white"></div>
-            <div class="pupil"></div>
-          </div>
-
-          <div class="muzzle">
-            <div class="nostril left"></div>
-            <div class="nostril right"></div>
-          </div>
-
-          <div class="horn left"></div>
-          <div class="horn right"></div>
-
-          <div class="ear left">
-            <div class="ear-inner"></div>
-            <div class="ear-color"></div>
-          </div>
-          <div class="ear right">
-            <div class="ear-inner"></div>
-            <div class="ear-color"></div>
-          </div>
-
-          <div class="drip d1"></div>
-          <div class="drip d2"></div>
+        <div class="art-meta">
+          <div class="art-meta-title">CSS Garafee</div>
+          <p class="art-meta-text">
+            A giraffe head &amp; neck painted entirely with HTML &amp; CSS:
+            gradients, shadows, and layered shapes. No image files.
+          </p>
+          <div class="pill">Medium: pure HTML + CSS</div>
         </div>
+      </article>
 
-        <!-- splatter dots around -->
-        <div class="splatter s1"></div>
-        <div class="splatter s2"></div>
-        <div class="splatter s3"></div>
-        <div class="splatter s4"></div>
-        <div class="splatter s5"></div>
-      </div>
-    </div>
+      <!-- Card 2: Your JPG image -->
+      <article class="art-card">
+        <div class="art-thumb">
+          <!-- Put the .jpg file next to this HTML for this path to work -->
+          <img
+            src="3ab6fbded6626ee43b1ced3af034ea2c.jpg"
+            alt="Colorful watercolor giraffe painting"
+          />
+        </div>
+        <div class="art-meta">
+          <div class="art-meta-title">Watercolor Garafee (JPG)</div>
+          <p class="art-meta-text">
+            The reference watercolor-style giraffe painting, included as a real image
+            next to the CSS-only rendition.
+          </p>
+          <div class="pill">Medium: JPEG image</div>
+        </div>
+      </article>
+
+      <!-- Card 3: Placeholder for future piece -->
+      <article class="art-card">
+        <div class="art-thumb"></div>
+        <div class="art-meta">
+          <div class="art-meta-title">Add another piece</div>
+          <p class="art-meta-text">
+            Duplicate this card and swap the thumbnail with another <code>&lt;img&gt;</code>
+            or another CSS experiment whenever you create more art.
+          </p>
+          <div class="pill">Hint: copy this card’s HTML</div>
+        </div>
+      </article>
+    </main>
   </div>
 </body>
 </html>
