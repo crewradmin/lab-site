@@ -2,32 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Floating Observatory City · Pure CSS Illustration</title>
+  <title>Garafee Head · Pixel Art</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root {
-      --sky-top: #0b1120;
-      --sky-mid: #1d2340;
-      --sky-bottom: #020617;
-      --sun-core: #fbd38d;
-      --sun-ring: #f97316;
-      --highlight: #facc15;
-      --deep-blue: #0f172a;
-      --water-top: #0b2344;
-      --water-bottom: #020617;
-      --building-1: #1f2933;
-      --building-2: #111827;
-      --building-3: #0b1120;
-      --accent-cyan: #22d3ee;
-      --accent-purple: #a855f7;
-      --accent-green: #22c55e;
-      --accent-pink: #ec4899;
-      --fog: rgba(15, 23, 42, 0.6);
-      --radius-lg: 28px;
-      --radius-md: 18px;
-      --radius-sm: 10px;
-      --radius-pill: 999px;
+      --face: #fdd49b;
+      --face-shadow: #f0b25c;
+      --border: #9b5a1a;
+      --horn: #d8bf7a;
+      --inner-ear: #f9c0a8;
+      --nostril: #7b341e;
+      --eye: #ffffff;
+      --background: #ffffff;
     }
 
     * {
@@ -38,812 +25,154 @@
 
     html, body {
       height: 100%;
-      width: 100%;
+      background: var(--background);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
-      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.16), transparent 55%),
-        radial-gradient(circle at 100% 120%, rgba(168, 85, 247, 0.2), transparent 60%),
-        linear-gradient(to bottom, var(--sky-top), var(--sky-mid) 40%, var(--sky-bottom) 100%);
-      color: #e5e7eb;
-      overflow: auto;
     }
 
     body {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: clamp(1rem, 3vw, 2rem);
+      padding: 1.5rem;
     }
 
-    .frame {
-      max-width: 1100px;
-      width: 100%;
-    }
-
-    .title-block {
-      margin-bottom: 0.9rem;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.8rem;
-      align-items: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .title-main {
-      font-size: clamp(1.4rem, 2vw, 1.7rem);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #e5e7eb;
-    }
-
-    .title-sub {
-      font-size: 0.8rem;
-      color: #9ca3af;
-      max-width: 22rem;
-    }
-
-    .pill {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.88);
-      padding: 0.3rem 0.8rem;
-      font-size: 0.76rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .pill-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle, #4ade80, #15803d);
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
-    }
-
-    /* Scene container with fixed aspect ratio (16:9) */
-
-    .scene-wrapper {
-      position: relative;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow:
-        0 24px 80px rgba(15, 23, 42, 0.95),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
-      background: linear-gradient(to bottom, var(--sky-top), var(--sky-mid) 45%, var(--sky-bottom) 100%);
-    }
-
-    .scene-inner {
-      position: relative;
-      width: 100%;
-      /* aspect ratio 16:9 */
-      padding-top: 56.25%;
-      overflow: hidden;
-    }
-
-    .scene-layer {
-      position: absolute;
-      inset: 0;
-    }
-
-    /* Sky gradient & stars */
-
-    .sky {
-      background:
-        radial-gradient(circle at 20% -10%, rgba(248, 250, 252, 0.12), transparent 60%),
-        radial-gradient(circle at 80% -20%, rgba(129, 140, 248, 0.16), transparent 60%),
-        linear-gradient(to bottom, #020617 0%, #020617 18%, var(--sky-mid) 50%, var(--sky-bottom) 100%);
-    }
-
-    .stars {
-      background-image:
-        radial-gradient(circle at 10% 20%, rgba(248, 250, 252, 0.7) 0, transparent 50%),
-        radial-gradient(circle at 30% 10%, rgba(226, 232, 240, 0.7) 0, transparent 55%),
-        radial-gradient(circle at 70% 15%, rgba(165, 243, 252, 0.6) 0, transparent 55%),
-        radial-gradient(circle at 85% 5%, rgba(233, 213, 255, 0.7) 0, transparent 55%);
-      background-size: 260px 260px, 340px 340px, 360px 360px, 320px 320px;
-      background-repeat: no-repeat;
-      opacity: 0.4;
-      mix-blend-mode: screen;
-    }
-
-    /* Sun / halo */
-
-    .sun {
-      position: absolute;
-      top: 11%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 240px;
-      height: 240px;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 30% 25%, #fff7ed 0, #fed7aa 32%, #f97316 70%, #ea580c 100%);
-      box-shadow:
-        0 0 60px rgba(253, 224, 171, 0.9),
-        0 0 120px rgba(248, 250, 252, 0.4);
-      opacity: 0.9;
-    }
-
-    .sun-halo {
-      position: absolute;
-      top: 2%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 380px;
-      height: 380px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(248, 250, 252, 0.07) 0, transparent 65%);
-      filter: blur(2px);
-    }
-
-    /* Clouds */
-
-    .cloud {
-      position: absolute;
-      width: 220px;
-      height: 70px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 20% 40%, rgba(248, 250, 252, 0.85), rgba(148, 163, 184, 0.4));
-      filter: blur(0.5px);
-      opacity: 0.85;
-    }
-
-    .cloud::before,
-    .cloud::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      background: inherit;
-    }
-
-    .cloud::before {
-      width: 130px;
-      height: 70px;
-      top: -28px;
-      left: 40px;
-    }
-
-    .cloud::after {
-      width: 90px;
-      height: 50px;
-      top: -14px;
-      right: 30px;
-    }
-
-    .cloud.c1 {
-      top: 16%;
-      left: 10%;
-    }
-    .cloud.c2 {
-      top: 9%;
-      right: 12%;
-      opacity: 0.7;
-    }
-    .cloud.c3 {
-      top: 26%;
-      left: 70%;
-      transform: scale(0.85);
-      opacity: 0.8;
-    }
-
-    /* Distant mountains */
-
-    .mountains-back {
-      position: absolute;
-      bottom: 45%;
-      left: -5%;
-      right: -5%;
-      height: 40%;
-      background:
-        radial-gradient(circle at 0 70%, #111827 0, transparent 55%),
-        radial-gradient(circle at 55% 100%, #020617 0, transparent 62%),
-        radial-gradient(circle at 95% 80%, #020617 0, transparent 50%);
-      opacity: 0.9;
-    }
-
-    .mountains-mid {
-      position: absolute;
-      bottom: 40%;
-      left: -8%;
-      right: -8%;
-      height: 42%;
-      background:
-        radial-gradient(circle at 15% 100%, #020617 0, transparent 60%),
-        radial-gradient(circle at 50% 120%, #020617 0, transparent 60%),
-        radial-gradient(circle at 90% 100%, #020617 0, transparent 60%);
-      opacity: 0.9;
-    }
-
-    /* Floating island base */
-
-    .island {
-      position: absolute;
-      left: 50%;
-      bottom: 33%;
-      transform: translateX(-50%);
-      width: 70%;
-      height: 32%;
-      border-radius: 50% 50% 40% 40%;
-      background:
-        radial-gradient(circle at 50% 0, rgba(248, 250, 252, 0.06), transparent 60%),
-        linear-gradient(to bottom, #111827 0%, #020617 60%, #020617 100%);
-      box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.9),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
-      overflow: hidden;
-    }
-
-    .island-top {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(148, 163, 184, 0.3), transparent 60%),
-        radial-gradient(circle at 50% 95%, rgba(15, 23, 42, 0.7), #020617 95%);
-      mask-image: radial-gradient(circle at 50% -40%, transparent 0, #000 72%);
-    }
-
-    .island-rim {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 6%;
-      height: 16%;
-      border-radius: 999px;
-      background: linear-gradient(to bottom, #111827, #020617);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-
-    .island-rim-inner {
-      position: absolute;
-      inset: 18% 7% 0;
-      border-radius: 999px;
-      background: radial-gradient(circle at 50% 20%, #1f2937, #020617 80%);
-      box-shadow: inset 0 0 12px rgba(15, 23, 42, 1);
-    }
-
-    /* City buildings */
-
-    .city {
-      position: absolute;
-      left: 50%;
-      top: 8%;
-      width: 62%;
-      height: 60%;
-      transform: translateX(-50%);
-    }
-
-    .building-row {
-      position: absolute;
-      inset: 0;
-    }
-
-    .building {
-      position: absolute;
-      bottom: 0;
-      border-radius: 8px 8px 3px 3px;
-      background: linear-gradient(to top, #020617, var(--building-2));
-      box-shadow: 0 14px 28px rgba(0,0,0,0.8);
-      overflow: hidden;
-    }
-
-    .building.b1 {
-      left: 4%;
-      width: 16%;
-      height: 65%;
-      background: linear-gradient(to top, #020617, var(--building-1));
-    }
-
-    .building.b2 {
-      left: 22%;
-      width: 14%;
-      height: 80%;
-      background: linear-gradient(to top, #020617, var(--building-2));
-    }
-
-    .building.b3 {
-      left: 38%;
-      width: 12%;
-      height: 60%;
-      background: linear-gradient(to top, #020617, #020617);
-    }
-
-    .building.b4 {
-      left: 52%;
-      width: 14%;
-      height: 72%;
-      background: linear-gradient(to top, #020617, var(--building-3));
-    }
-
-    .building.b5 {
-      left: 68%;
-      width: 16%;
-      height: 58%;
-      background: linear-gradient(to top, #020617, var(--building-1));
-    }
-
-    /* Windows via gradients */
-
-    .building::before {
-      content: "";
-      position: absolute;
-      inset: 8% 18% 8%;
-      background-image:
-        linear-gradient(to bottom, rgba(15, 23, 42, 0.3) 1px, transparent 1px),
-        linear-gradient(to right, rgba(15, 23, 42, 0.3) 1px, transparent 1px);
-      background-size: 100% 10px, 12px 100%;
-      opacity: 0.6;
-      mix-blend-mode: soft-light;
-    }
-
-    .building::after {
-      content: "";
-      position: absolute;
-      inset: 10% 18% 10%;
-      background:
-        radial-gradient(circle, rgba(250, 204, 21, 0.9) 0, transparent 60%) 20% 20%/8px 8px,
-        radial-gradient(circle, rgba(56, 189, 248, 0.9) 0, transparent 60%) 60% 45%/8px 8px,
-        radial-gradient(circle, rgba(250, 204, 21, 0.9) 0, transparent 60%) 40% 70%/8px 8px,
-        radial-gradient(circle, rgba(56, 189, 248, 0.9) 0, transparent 60%) 70% 30%/8px 8px;
-      background-repeat: no-repeat;
-      opacity: 0.9;
-    }
-
-    /* Observatory dome */
-
-    .observatory {
-      position: absolute;
-      left: 50%;
-      bottom: 38%;
-      width: 24%;
-      height: 32%;
-      transform: translateX(-50%);
-    }
-
-    .observatory-base {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      bottom: 0;
-      height: 45%;
-      border-radius: 12px;
-      background: linear-gradient(to top, #020617, #020617);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.9);
-      overflow: hidden;
-    }
-
-    .observatory-base::before {
-      content: "";
-      position: absolute;
-      inset: 15% 18% 18%;
-      border-radius: 6px;
-      background: radial-gradient(circle at 10% 20%, rgba(248, 250, 252, 0.15), transparent 60%),
-        linear-gradient(to bottom, #020617, #111827);
-      box-shadow: inset 0 0 8px rgba(15, 23, 42, 1);
-    }
-
-    .observatory-base::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 14%;
-      width: 36%;
-      height: 20%;
-      transform: translateX(-50%);
-      border-radius: 999px;
-      background: radial-gradient(circle at 50% 0, rgba(56, 189, 248, 0.5), transparent 70%);
-      opacity: 0.8;
-    }
-
-    .dome {
-      position: absolute;
-      left: 50%;
-      bottom: 45%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 80%;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(248, 250, 252, 0.35), transparent 55%),
-        radial-gradient(circle at 40% 90%, rgba(56, 189, 248, 0.7), transparent 65%),
-        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.6), transparent 65%),
-        radial-gradient(circle at 50% 50%, #020617, #020617 65%);
-      box-shadow:
-        0 0 0 1px rgba(15, 23, 42, 1),
-        0 16px 30px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(56, 189, 248, 0.9);
-      overflow: hidden;
-    }
-
-    .dome-ring {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      bottom: 40%;
-      height: 18%;
-      border-radius: 999px;
-      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), #020617);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.8);
-    }
-
-    .telescope {
-      position: absolute;
-      bottom: 62%;
-      left: 55%;
-      width: 40%;
-      height: 6px;
-      background: linear-gradient(to right, #e5e7eb, #9ca3af);
-      border-radius: 999px;
-      transform-origin: left center;
-      transform: rotate(-18deg);
-      box-shadow: 0 0 12px rgba(248, 250, 252, 0.8);
-    }
-
-    .telescope::after {
-      content: "";
-      position: absolute;
-      right: -7px;
-      top: -3px;
-      width: 14px;
-      height: 12px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #e5e7eb, #93c5fd);
-      box-shadow: 0 0 12px rgba(191, 219, 254, 0.9);
-    }
-
-    /* Railings and terraces */
-
-    .rail {
-      position: absolute;
-      left: 14%;
-      right: 14%;
-      top: 30%;
-      height: 5%;
-      border-radius: 999px;
-      background: linear-gradient(to bottom, #020617, #020617);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.9);
-    }
-
-    .rail::before {
-      content: "";
-      position: absolute;
-      inset: 30% 6%;
-      border-radius: 999px;
-      background: linear-gradient(to right, rgba(148, 163, 184, 0.4), rgba(30, 64, 175, 0.9));
-    }
-
-    .rail-post {
-      position: absolute;
-      top: 35%;
-      width: 3px;
-      height: 22%;
-      border-radius: 999px;
-      background: linear-gradient(to bottom, rgba(148, 163, 184, 0.9), #020617);
-      left: 18%;
-      box-shadow:
-        12% 0 0 rgba(148, 163, 184, 0.9),
-        24% 0 0 rgba(148, 163, 184, 0.9),
-        36% 0 0 rgba(148, 163, 184, 0.9),
-        48% 0 0 rgba(148, 163, 184, 0.9),
-        60% 0 0 rgba(148, 163, 184, 0.9);
-    }
-
-    /* Floating ships */
-
-    .airship {
-      position: absolute;
-      width: 80px;
-      height: 26px;
-      border-radius: 999px;
-      background: linear-gradient(to right, #e5e7eb, #cbd5f5);
-      box-shadow:
-        0 10px 20px rgba(0, 0, 0, 0.6),
-        0 0 18px rgba(191, 219, 254, 0.8);
-    }
-
-    .airship::before {
-      content: "";
-      position: absolute;
-      left: 6px;
-      right: 6px;
-      bottom: -7px;
-      height: 9px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 50% 0, rgba(15, 23, 42, 0.9), transparent 70%);
-      opacity: 0.8;
-    }
-
-    .airship::after {
-      content: "";
-      position: absolute;
-      right: 4px;
-      top: 7px;
-      width: 18px;
-      height: 10px;
-      border-radius: 4px;
-      background: linear-gradient(to right, #0f172a, #020617);
-    }
-
-    .airship.a1 {
-      top: 30%;
-      left: 16%;
-      transform: scale(0.9);
-    }
-
-    .airship.a2 {
-      top: 23%;
-      right: 18%;
-      transform: scale(1.1);
-    }
-
-    /* Hanging stalactites under island */
-
-    .stalactites {
-      position: absolute;
-      left: 12%;
-      right: 12%;
-      bottom: 0;
-      height: 40%;
-      background:
-        radial-gradient(ellipse at 12% 0, rgba(15, 23, 42, 0.9) 0, transparent 50%),
-        radial-gradient(ellipse at 35% 0, rgba(15, 23, 42, 0.8) 0, transparent 50%),
-        radial-gradient(ellipse at 65% 0, rgba(15, 23, 42, 0.85) 0, transparent 50%),
-        radial-gradient(ellipse at 88% 0, rgba(15, 23, 42, 0.9) 0, transparent 50%);
-      opacity: 0.9;
-    }
-
-    /* Water layer */
-
-    .water {
-      position: absolute;
-      left: -10%;
-      right: -10%;
-      bottom: -5%;
-      height: 32%;
-      background:
-        linear-gradient(to bottom, rgba(15, 23, 42, 0.4), transparent 40%),
-        radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.45), transparent 60%),
-        linear-gradient(to bottom, var(--water-top), var(--water-bottom));
-      opacity: 0.95;
-      overflow: hidden;
-    }
-
-    .water-wave {
-      position: absolute;
-      left: -20%;
-      right: -20%;
-      top: 10%;
-      height: 40%;
-      background:
-        radial-gradient(ellipse at 50% -40%, rgba(148, 163, 184, 0.3) 0, transparent 60%);
-      opacity: 0.6;
-    }
-
-    .water-rings {
-      position: absolute;
-      bottom: 10%;
-      left: 50%;
-      width: 220px;
-      height: 80px;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.3) 0, transparent 70%);
-      opacity: 0.4;
-    }
-
-    .water-rings::before,
-    .water-rings::after {
-      content: "";
-      position: absolute;
-      inset: 10% 6%;
-      border-radius: 50%;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-    }
-
-    .water-rings::after {
-      inset: 25% 18%;
-      border-color: rgba(56, 189, 248, 0.4);
-    }
-
-    /* Small UI overlay */
-
-    .ui-overlay {
-      position: absolute;
-      left: 1.2rem;
-      bottom: 1.2rem;
-      padding: 0.55rem 0.7rem;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      font-size: 0.75rem;
-      color: #9ca3af;
-      max-width: 260px;
-      backdrop-filter: blur(18px);
+    .wrap {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .ui-overlay-title {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #e5e7eb;
-    }
-
-    .legend-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-top: 0.2rem;
-    }
-
-    .legend-pill {
-      display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
-      border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      padding: 0.12rem 0.45rem;
-      background: rgba(15, 23, 42, 0.98);
-      font-size: 0.7rem;
+      gap: 0.7rem;
     }
 
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
+    .title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #4b5563;
     }
 
-    .legend-dot.observatory {
-      background: radial-gradient(circle, var(--accent-cyan), #1d4ed8);
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
-    }
-
-    .legend-dot.city {
-      background: radial-gradient(circle, #facc15, #f97316);
-      box-shadow: 0 0 10px rgba(250, 204, 21, 0.9);
-    }
-
-    .legend-dot.airship {
-      background: radial-gradient(circle, #e5e7eb, #cbd5f5);
-      box-shadow: 0 0 10px rgba(191, 219, 254, 0.9);
-    }
-
-    .legend-dot.water {
-      background: radial-gradient(circle, #22d3ee, #0f172a);
-      box-shadow: 0 0 10px rgba(34, 211, 238, 0.9);
-    }
-
-    .caption {
-      margin-top: 0.75rem;
+    .subtitle {
       font-size: 0.8rem;
-      color: #9ca3af;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.6rem;
-      flex-wrap: wrap;
+      color: #6b7280;
+      text-align: center;
+      max-width: 24rem;
     }
 
-    .caption span strong {
-      font-weight: 500;
-      color: #e5e7eb;
+    .pixel-art {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(24, 16px);
+      grid-template-rows: repeat(24, 16px);
+      gap: 1px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #f3f4f6;
+      box-shadow:
+        0 22px 50px rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(209, 213, 219, 0.9);
+    }
+
+    .px {
+      width: 16px;
+      height: 16px;
+      background: var(--background);
+    }
+
+    /* Colors for each "type" of pixel */
+    .border {
+      background: var(--border);
+    }
+
+    .face {
+      background: var(--face);
+    }
+
+    .shadow {
+      background: var(--face-shadow);
+    }
+
+    .horn {
+      background: var(--horn);
+    }
+
+    .inner-ear {
+      background: var(--inner-ear);
+    }
+
+    .nostril {
+      background: var(--nostril);
+    }
+
+    .eye {
+      background: var(--eye);
+    }
+
+    /* Slight crisp look on higher DPI */
+    @media (min-width: 768px) {
+      .pixel-art {
+        image-rendering: pixelated;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="frame">
-    <div class="title-block">
-      <div>
-        <div class="title-main">floating observatory city</div>
-        <div class="title-sub">
-          A single “image” made entirely from HTML + CSS gradients, shadows, and shapes.
-          No image files, no canvas, just layout and color.
-        </div>
-      </div>
-      <div class="pill">
-        <span class="pill-dot"></span>
-        <span>rendered live in your browser</span>
-      </div>
+  <div class="wrap">
+    <div class="title">garafee head · pixel art</div>
+    <div class="subtitle">
+      24 × 24 grid, colored pixel by pixel. No images, just HTML + CSS.
     </div>
 
-    <div class="scene-wrapper">
-      <div class="scene-inner">
-        <!-- Base layers -->
-        <div class="scene-layer sky"></div>
-        <div class="scene-layer stars"></div>
-        <div class="scene-layer sun-halo"></div>
-        <div class="scene-layer sun"></div>
-
-        <!-- Clouds -->
-        <div class="scene-layer">
-          <div class="cloud c1"></div>
-          <div class="cloud c2"></div>
-          <div class="cloud c3"></div>
-        </div>
-
-        <!-- Mountains -->
-        <div class="scene-layer mountains-back"></div>
-        <div class="scene-layer mountains-mid"></div>
-
-        <!-- Island and city -->
-        <div class="scene-layer">
-          <div class="island">
-            <div class="island-top"></div>
-            <div class="island-rim"></div>
-            <div class="island-rim-inner"></div>
-            <div class="city">
-              <div class="building-row">
-                <div class="building b1"></div>
-                <div class="building b2"></div>
-                <div class="building b3"></div>
-                <div class="building b4"></div>
-                <div class="building b5"></div>
-              </div>
-            </div>
-
-            <div class="observatory">
-              <div class="observatory-base"></div>
-              <div class="dome"></div>
-              <div class="dome-ring"></div>
-              <div class="telescope"></div>
-            </div>
-
-            <div class="rail">
-              <div class="rail-post"></div>
-            </div>
-
-            <div class="stalactites"></div>
-          </div>
-        </div>
-
-        <!-- Floating airships -->
-        <div class="scene-layer">
-          <div class="airship a1"></div>
-          <div class="airship a2"></div>
-        </div>
-
-        <!-- Water -->
-        <div class="scene-layer water">
-          <div class="water-wave"></div>
-          <div class="water-rings"></div>
-        </div>
-
-        <!-- Overlay legend -->
-        <div class="ui-overlay">
-          <div class="ui-overlay-title">scene legend</div>
-          <div>Hover and just look; everything is CSS boxes & gradients.</div>
-          <div class="legend-row">
-            <div class="legend-pill">
-              <span class="legend-dot observatory"></span>
-              <span>Central observatory</span>
-            </div>
-            <div class="legend-pill">
-              <span class="legend-dot city"></span>
-              <span>Tiered city blocks</span>
-            </div>
-            <div class="legend-pill">
-              <span class="legend-dot airship"></span>
-              <span>Sky traffic</span>
-            </div>
-            <div class="legend-pill">
-              <span class="legend-dot water"></span>
-              <span>Reflective sea</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="caption">
-      <span>
-        <strong>How it’s drawn:</strong> layered divs, border-radius, gradients, shadows, and a fixed aspect ratio container.
-      </span>
-      <span>
-        You can copy this file, tweak colors and positions, and turn it into your own CSS “painting”.
-      </span>
+    <div class="pixel-art">
+      <!-- 24 x 24 pixels: each div is one pixel -->
+      <!-- Row 0 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 1 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px horn"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px horn"></div><div class="px horn"></div><div class="px horn"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 2 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 3 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px inner-ear"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px inner-ear"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 4 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px inner-ear"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px inner-ear"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 5 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 6 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 7 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 8 (eyes row) -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px eye"></div><div class="px eye"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 9 (eyes second line) -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px eye"></div><div class="px eye"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 10 (top of snout) -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 11 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 12 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 13 (nostrils) -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px nostril"></div><div class="px shadow"></div><div class="px shadow"></div><div class="px nostril"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 14 (start neck) -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Rows 15–23 (neck) -->
+      <!-- Row 15 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 16 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 17 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 18 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 19 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 20 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 21 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 22 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- Row 23 -->
+      <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px border"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px shadow"></div><div class="px face"></div><div class="px face"></div><div class="px face"></div><div class="px border"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
     </div>
   </div>
 </body>
